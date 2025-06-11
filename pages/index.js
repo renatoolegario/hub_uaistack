@@ -1,13 +1,18 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
+import { Box, Container } from '@mui/material';
 
 export default function Home() {
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Olá mundo</title>
-      </Helmet>
-      <div>Olá mundo</div>
+      </Head>
+      <Container>
+        <Box>
+          <h1>Olá mundo</h1>
+        </Box>
+      </Container>
     </>
   );
 }
