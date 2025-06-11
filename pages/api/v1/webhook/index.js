@@ -1,14 +1,34 @@
-import { getDbClient } from '../../../../hooks/utils';
+import CryptoJS from 'crypto-js';
+import consultaBd from './database';
 
-async function checkAuth(apiKey, remetente) {
-  const db = getDbClient();
-  await db.connect();
-  const query = 'SELECT 1 FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
-  const result = await db.query(query, [apiKey, remetente]);
-  return result.rows.length > 0;
+async function conversaoCripto(conteudo) {
+  const secretKey = process.env.SECRET_KEY;
+  if (!secretKey) {
+    throw new Error("Chave secreta não definida");
+  }
+  
+  // Definindo um IV fixo (16 bytes para AES)
+  const iv = CryptoJS.enc.Utf8.parse(process.env.IV); // Exemplo fixo, NÃO use em produção sem compreender os riscos
+  
+  // Converter a secretKey para um formato adequado (supondo que ela tenha o tamanho correto)
+  const key = CryptoJS.enc.Utf8.parse(secretKey);
+
+  // Realiza a criptografia utilizando o modo CBC e padding PKCS7
+  const encrypted = CryptoJS.AES.encrypt(conteudo, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7
+  });
+  
+  return encrypted.toString();
 }
 
-export default async function handler(req, res) {
+const rotasSuportadas = [
+  'auth',
+
+]
+
+export default async function webhook(request, response) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -24,7 +44,7 @@ export default async function handler(req, res) {
   try {
     switch (rota) {
       case 'auth': {
-        const authorized = await checkAuth(auth, remetente);
+        const authorized = await consultaBd(rota, {auth, remetente});
         res.status(200).json({ authorized });
         break;
       }
