@@ -12,21 +12,19 @@ async function query(rota, dados) {
 
     try {
 
-        const pool = await cliente.connect();
-
-          if (rota === 'auth') {
+        if (rota === 'auth') {
             try {
-              const { auth, remetente } = dados;
-             
-              // Consulta: verificar se existe um usuário com o email e senha informados
-                  const query = 'SELECT 1 FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
-      const result = await db.query(query, [auth, remetente]);
-      return result.rows.length > 0;
+                const { auth, remetente } = dados;
+
+                // Consulta: verifica se o par auth e remetente existe
+                const query = 'SELECT 1 FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
+                const result = await cliente.query(query, [auth, remetente]);
+                return result.rows.length > 0;
             } catch (error) {
-              console.error('Erro ao autenticar usuário:', error);
-              return { error: `Erro interno do servidor - ${error.message}` };
+                console.error('Erro ao autenticar usuário:', error);
+                return { error: `Erro interno do servidor - ${error.message}` };
             }
-          }
+        }
 
           
 
