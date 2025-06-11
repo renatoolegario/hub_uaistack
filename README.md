@@ -10,6 +10,7 @@ A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhoo
 - `pages/index.js` - Página principal.
 - `pages/_app.js` - Arquivo de configuração global.
 - `pages/api/v1/webhook` - Endpoint de webhook.
+- `pages/api/v1/subcategorias` - Endpoint para cadastrar subcategorias.
 
  Este repositório contém um exemplo simples de projeto Next.js. A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhook`.
 
