@@ -49,6 +49,7 @@ export default async function webhook(req, res) {
           return res.status(400).json({ error: 'nome é obrigatório' });
         }
         const resultado = await consultaBd('cadastroCategoriaAfiliado', { nome });
+         return res.status(200).json(resultado);
       }
       case 'cadastroProdutoAfiliado': {
         const resultado = await consultaBd('cadastroProdutoAfiliado', dados);
