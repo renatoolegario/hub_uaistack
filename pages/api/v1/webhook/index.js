@@ -41,15 +41,7 @@ export default async function webhook(req, res) {
     // 2. Se autorizado, executar a rota solicitada
     switch (rota) {
       // Você pode adicionar cases conforme necessário
-      case 'minhaRota1': {
-        // lógica
-        return res.status(200).json({ sucesso: true });
-      }
-
-      case 'minhaRota2': {
-        // lógica
-        return res.status(200).json({ sucesso: true });
-      }
+     
 
       case 'cadastroCategoriaAfiliado': {
         const { nome } = dados || {};
@@ -57,7 +49,7 @@ export default async function webhook(req, res) {
           return res.status(400).json({ error: 'nome é obrigatório' });
         }
         const resultado = await consultaBd('cadastroCategoriaAfiliado', { nome });
-
+      }
       case 'cadastroProdutoAfiliado': {
         const resultado = await consultaBd('cadastroProdutoAfiliado', dados);
 
