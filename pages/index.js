@@ -1,3 +1,4 @@
+
 import { Helmet } from 'react-helmet';
 
 export default function Home() {
@@ -9,4 +10,8 @@ export default function Home() {
       <div>Olá mundo</div>
     </>
   );
+
+export default function Home() {
+  return <div>Olá mundo</div>;
+
 }
