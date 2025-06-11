@@ -28,7 +28,7 @@ const rotasSuportadas = [
 
 ]
 
-export default async function webhook(request, response) {
+export default async function webhook(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;

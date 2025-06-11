@@ -5,14 +5,11 @@ async function query(rota, dados) {
       return { error: 'Variável de ambiente POSTGRES_URL não definida' };
     }
 
-   const cliente = createPool({
+   const pool = createPool({
       connectionString: process.env.POSTGRES_URL,
     });
-    
 
     try {
-
-        const pool = await cliente.connect();
 
           if (rota === 'auth') {
             try {
@@ -20,7 +17,7 @@ async function query(rota, dados) {
              
               // Consulta: verificar se existe um usuário com o email e senha informados
                   const query = 'SELECT 1 FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
-      const result = await db.query(query, [auth, remetente]);
+      const result = await pool.query(query, [auth, remetente]);
       return result.rows.length > 0;
             } catch (error) {
               console.error('Erro ao autenticar usuário:', error);
