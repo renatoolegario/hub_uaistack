@@ -57,9 +57,27 @@ export default async function webhook(req, res) {
           return res.status(400).json({ error: 'nome é obrigatório' });
         }
         const resultado = await consultaBd('cadastroCategoriaAfiliado', { nome });
+        return res.status(200).json(resultado);
+      }
 
       case 'cadastroProdutoAfiliado': {
         const resultado = await consultaBd('cadastroProdutoAfiliado', dados);
+
+        return res.status(200).json(resultado);
+      }
+
+      case 'listarCategoriaAfiliado': {
+        const resultado = await consultaBd('listarCategoriaAfiliado');
+        return res.status(200).json(resultado);
+      }
+
+      case 'listarSubcategoriaAfiliado': {
+        const resultado = await consultaBd('listarSubcategoriaAfiliado');
+        return res.status(200).json(resultado);
+      }
+
+      case 'listarProdutosAfiliado': {
+        const resultado = await consultaBd('listarProdutosAfiliado');
 
         return res.status(200).json(resultado);
       }
