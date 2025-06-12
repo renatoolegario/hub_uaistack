@@ -6,16 +6,26 @@ async function query(rota, dados) {
     return { error: 'Variável de ambiente POSTGRES_URL não definida' };
   }
 
+  const manutencao = process.env.MANUTENCAO;
+
   const pool = createPool({ connectionString: process.env.POSTGRES_URL });
   const client = await pool.connect();
 
   try {
     if (rota === 'auth') {
       const { auth, remetente } = dados;
-      const query =
-        'SELECT 1 FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
-      const result = await client.query(query, [auth, remetente]);
-      return result.rows.length > 0;
+      
+      
+      if(manutencao === "sim"){
+        const query ='SELECT 1 FROM auth.apikeys WHERE apikey = $1 LIMIT 1';
+        const result = await client.query(query, [auth]);
+        return result.rows.length > 0;
+      }else{
+        const query ='SELECT 1 FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
+        const result = await client.query(query, [auth, remetente]);
+        return result.rows.length > 0;
+      }
+      
     }
 
     if (rota === 'cadastroCategoriaAfiliado') {
