@@ -23,6 +23,7 @@ async function query(rota, dados) {
       }else{
         const query ='SELECT 1 FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
         const result = await client.query(query, [auth, remetente]);
+        console.log(result);
         return result.rows.length > 0;
       }
       
