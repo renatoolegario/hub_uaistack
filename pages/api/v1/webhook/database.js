@@ -19,18 +19,18 @@ async function query(rota, dados) {
     }
 
     if (rota === 'cadastroCategoriaAfiliado') {
-      const { nome } = dados;
+      const { nome, label, descricao } = dados;
       const query =
-        'INSERT INTO afiliado.categorias (nome) VALUES ($1) RETURNING id, nome';
-      const result = await client.query(query, [nome]);
+        'INSERT INTO afiliado.categorias (nome, label, descricao) VALUES ($1, $2, $3) RETURNING id, nome, label, descricao';
+      const result = await client.query(query, [nome, label, descricao]);
       return result.rows[0];
     }
 
     if (rota === 'cadastroSubcategoriaAfiliado') {
-      const { nome, id_categoria } = dados;
+      const { nome, id_categoria, label, descricao } = dados;
       const query =
-        'INSERT INTO afiliado.subcategorias (nome, categoria_id) VALUES ($1, $2) RETURNING id, nome, categoria_id';
-      const result = await client.query(query, [nome, id_categoria]);
+        'INSERT INTO afiliado.subcategorias (nome, categoria_id, label, descricao) VALUES ($1, $2, $3, $4) RETURNING id, nome, categoria_id, label, descricao';
+      const result = await client.query(query, [nome, id_categoria, label, descricao]);
       return result.rows[0];
     }
 
@@ -82,20 +82,14 @@ async function query(rota, dados) {
     }
 
     if (rota === 'listarCategoriaAfiliado') {
-      const query = 'SELECT id, nome FROM afiliado.categorias ORDER BY nome';
+      const query = 'SELECT id, nome, label, descricao FROM afiliado.categorias ORDER BY nome';
       const result = await client.query(query);
       return result.rows;
     }
 
-      if (rota === 'listarSubcategoriaAfiliado') {
-        const query =
-          'SELECT id, nome FROM afiliado.subcategorias ORDER BY nome';
-        const result = await client.query(query);
-        return result.rows;
-      }
     if (rota === 'listarSubcategoriaAfiliado') {
       const query =
-        'SELECT id, nome, categoria_id FROM afiliado.subcategorias ORDER BY nome';
+        'SELECT id, nome, categoria_id, label, descricao FROM afiliado.subcategorias ORDER BY nome';
       const result = await client.query(query);
       return result.rows;
     }
