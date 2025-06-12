@@ -50,7 +50,7 @@ async function query(rota, dados) {
       return result.rows[0];
     }
 
-   if (rota === 'cadastroProdutoAfiliado') {
+ if (rota === 'cadastroProdutoAfiliado') {
   const {
     nome,
     descricao,
@@ -58,8 +58,6 @@ async function query(rota, dados) {
     link_afiliado,
     categoria_id,
     subcategoria_id,
-    idade_minima,
-    idade_maxima,
     origem,
     preco,
     cliques = 0,
@@ -73,14 +71,14 @@ async function query(rota, dados) {
   const queryText = `
     INSERT INTO afiliado.afiliacoes (
       id, nome, descricao, imagem_url, link_afiliado,
-      categoria_id, subcategoria_id, idade_minima, idade_maxima,
+      categoria_id, subcategoria_id,
       origem, preco, cliques, link_original, frete,
       data_criacao
     ) VALUES (
       $1, $2, $3, $4, $5,
-      $6, $7, $8, $9,
-      $10, $11, $12, $13, $14,
-      $15
+      $6, $7,
+      $8, $9, $10, $11, $12,
+      $13
     )
     RETURNING *
   `;
@@ -93,8 +91,6 @@ async function query(rota, dados) {
     link_afiliado,
     categoria_id,
     subcategoria_id,
-    idade_minima,
-    idade_maxima,
     origem,
     preco,
     cliques,
@@ -108,15 +104,16 @@ async function query(rota, dados) {
 }
 
 
+
     if (rota === 'listarCategoriaAfiliado') {
-      const query = 'SELECT id, nome, label, descricao FROM afiliado.categorias ORDER BY nome';
+      const query = 'SELECT id, nome, label, descricao FROM afiliado.categorias ORDER BY posicao ASC, nome';
       const result = await client.query(query);
       return result.rows;
     }
 
     if (rota === 'listarSubcategoriaAfiliado') {
       const query =
-        'SELECT id, nome, label, descricao, palavras_chave FROM afiliado.subcategorias ORDER BY posicao ASC, nome';
+        'SELECT id, nome, label, descricao, palavras_chave FROM afiliado.subcategorias ORDER BY nome';
       const result = await client.query(query);
       return result.rows;
     }
