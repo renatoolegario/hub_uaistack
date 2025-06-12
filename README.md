@@ -12,6 +12,7 @@ A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhoo
 - `pages/api/v1/webhook` - Endpoint de webhook.
 - Rota `cadastroCategoriaAfiliado` no webhook - Endpoint para cadastrar categorias (envia `nome`, `label` e `descricao`).
 - Rota `cadastroSubcategoriaAfiliado` no webhook - Endpoint para cadastrar subcategorias (envia `nome`, `label`, `descricao` e `palavras_chaves`).
+- Rota `cadastroLeads` no webhook - Endpoint para cadastrar leads (envia `nome`, `whatsapp`, `origem` e `campanha_origem`).
 
  Este repositório contém um exemplo simples de projeto Next.js. A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhook`.
 
