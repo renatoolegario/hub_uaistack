@@ -15,7 +15,7 @@ async function query(rota, dados) {
     if (rota === 'auth') {
       const { auth, remetente } = dados;
       
-      
+      console.log( auth, remetente, manutencao);
       if(manutencao === "sim"){
         const query ='SELECT 1 FROM auth.apikeys WHERE apikey = $1 LIMIT 1';
         const result = await client.query(query, [auth]);
