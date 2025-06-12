@@ -116,13 +116,13 @@ async function query(rota, dados) {
 
     if (rota === 'listarSubcategoriaAfiliado') {
       const query =
-        'SELECT id, nome, label, descricao, palavras_chave FROM afiliado.subcategorias ORDER BY nome';
+        'SELECT id, nome, label, descricao, palavras_chave FROM afiliado.subcategorias ORDER BY posicao ASC, nome';
       const result = await client.query(query);
       return result.rows;
     }
 
     if (rota === 'listarProdutosAfiliado') {
-      const query = 'SELECT * FROM afiliado.afiliacoes ORDER BY posicao ASC, nome';
+      const query = 'SELECT * FROM afiliado.afiliacoes ORDER BY nome';
       const result = await client.query(query);
       return result.rows;
     }
