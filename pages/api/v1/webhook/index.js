@@ -34,7 +34,6 @@ export default async function webhook(req, res) {
 
   const { rota, dados, auth, remetente } = req.body || {};
 
-  console.log( rota, dados, auth, remetente );
   if (!rota || !auth || !remetente) {
     return res.status(400).json({ error: 'rota, auth and remetente are required' });
   }
