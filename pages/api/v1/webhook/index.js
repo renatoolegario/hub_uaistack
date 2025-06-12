@@ -79,6 +79,19 @@ export default async function webhook(req, res) {
         });
         return res.status(200).json(resultado);
       }
+      case 'cadastroLeads': {
+        const { nome, whatsapp, origem, campanha_origem } = dados || {};
+        if (!nome || !whatsapp) {
+          return res.status(400).json({ error: 'nome e whatsapp são obrigatórios' });
+        }
+        const resultado = await consultaBd('cadastroLeads', {
+          nome,
+          whatsapp,
+          origem,
+          campanha_origem,
+        });
+        return res.status(200).json(resultado);
+      }
       case 'cadastroProdutoAfiliado': {
         const resultado = await consultaBd('cadastroProdutoAfiliado', dados);
 

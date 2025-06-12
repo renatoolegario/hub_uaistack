@@ -35,6 +35,21 @@ async function query(rota, dados) {
       return result.rows[0];
     }
 
+    if (rota === 'cadastroLeads') {
+      const { nome, whatsapp, origem, campanha_origem } = dados;
+      const data_cadastro = new Date();
+      const queryText =
+        'INSERT INTO leads.leads (nome, whatsapp, origem, campanha_origem, data_cadastro) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+      const result = await client.query(queryText, [
+        nome,
+        whatsapp,
+        origem,
+        campanha_origem,
+        data_cadastro,
+      ]);
+      return result.rows[0];
+    }
+
    if (rota === 'cadastroProdutoAfiliado') {
   const {
     nome,
