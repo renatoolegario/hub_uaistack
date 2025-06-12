@@ -34,6 +34,7 @@ export default async function webhook(req, res) {
 
   const { rota, dados, auth, remetente } = req.body || {};
 
+  console.log( rota, dados, auth, remetente );
   if (!rota || !auth || !remetente) {
     return res.status(400).json({ error: 'rota, auth and remetente are required' });
   }
@@ -61,10 +62,14 @@ export default async function webhook(req, res) {
       }
 
       case 'cadastroSubcategoriaAfiliado': {
+       
         const { nome, id_categoria } = dados || {};
+        
         if (!nome || !id_categoria) {
           return res.status(400).json({ error: 'nome e id_categoria são obrigatórios' });
         }
+
+        console.log("AAAAAAA");
         const resultado = await consultaBd('cadastroSubcategoriaAfiliado', {
           nome,
           id_categoria,
