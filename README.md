@@ -20,7 +20,7 @@ O endpoint `/api/v1/webhook` aceita requisições `POST` contendo no corpo JSON 
 
 ### Subcategorias
 
-A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias e suas respectivas categorias, enquanto `cadastroSubcategoriaAfiliado` permite inserir novas subcategorias informando `nome` e `id_categoria`.
+A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias. A rota `cadastroSubcategoriaAfiliado` agora insere novas subcategorias informando apenas o campo `nome`.
 
 ### Afiliações
 

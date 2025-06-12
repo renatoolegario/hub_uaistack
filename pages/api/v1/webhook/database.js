@@ -46,6 +46,13 @@ async function query(rota, dados) {
         idade_maxima,
       } = dados;
 
+      if (rota === 'cadastroSubcategoriaAfiliado') {
+        const { nome } = dados;
+        const query =
+          'INSERT INTO afiliado.subcategorias (nome) VALUES ($1) RETURNING id, nome';
+        const result = await client.query(query, [nome]);
+        return result.rows[0];
+      }
       const id = uuidv4(); // gera novo UUID
       const data_criacao = new Date();
 
@@ -80,6 +87,12 @@ async function query(rota, dados) {
       return result.rows;
     }
 
+      if (rota === 'listarSubcategoriaAfiliado') {
+        const query =
+          'SELECT id, nome FROM afiliado.subcategorias ORDER BY nome';
+        const result = await client.query(query);
+        return result.rows;
+      }
     if (rota === 'listarSubcategoriaAfiliado') {
       const query =
         'SELECT id, nome, categoria_id FROM afiliado.subcategorias ORDER BY nome';
