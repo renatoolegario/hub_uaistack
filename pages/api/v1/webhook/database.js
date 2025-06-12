@@ -26,10 +26,10 @@ async function query(rota, dados) {
       }
 
       if (rota === 'cadastroSubcategoriaAfiliado') {
-        const { nome, id_categoria } = dados;
+        const { nome } = dados;
         const query =
-          'INSERT INTO afiliado.subcategorias (nome, categoria_id) VALUES ($1, $2) RETURNING id, nome, categoria_id';
-        const result = await client.query(query, [nome, id_categoria]);
+          'INSERT INTO afiliado.subcategorias (nome) VALUES ($1) RETURNING id, nome';
+        const result = await client.query(query, [nome]);
         return result.rows[0];
       }
 
@@ -74,7 +74,7 @@ async function query(rota, dados) {
 
       if (rota === 'listarSubcategoriaAfiliado') {
         const query =
-          'SELECT id, nome, categoria_id FROM afiliado.subcategorias ORDER BY nome';
+          'SELECT id, nome FROM afiliado.subcategorias ORDER BY nome';
         const result = await client.query(query);
         return result.rows;
       }
