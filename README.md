@@ -22,6 +22,11 @@ O endpoint `/api/v1/webhook` aceita requisições `POST` contendo no corpo JSON 
 
 A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias e suas respectivas categorias, enquanto `cadastroSubcategoriaAfiliado` permite inserir novas subcategorias informando `nome` e `id_categoria`.
 
+### Afiliações
+
+Para cadastrar um novo produto de afiliado utilize a rota `cadastroProdutoAfiliado`.
+Não é necessário enviar o campo `data_criacao`, pois o backend registra a data de criação automaticamente com o timestamp atual do servidor.
+
 
 ## Scripts
 

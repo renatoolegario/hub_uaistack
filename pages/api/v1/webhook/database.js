@@ -44,8 +44,10 @@ async function query(rota, dados) {
           subcategoria_id,
           idade_minima,
           idade_maxima,
-          data_criacao,
         } = dados;
+
+        const data_criacao = new Date();
+
         const queryText = `INSERT INTO afiliado.afiliacoes (id, nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, idade_minima, idade_maxima, data_criacao)
                            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`;
         const values = [
