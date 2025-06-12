@@ -107,7 +107,7 @@ async function query(rota, dados) {
     }
 
     if (rota === 'listarProdutosAfiliado') {
-      const query = 'SELECT * FROM afiliado.afiliacoes ORDER BY nome';
+      const query = 'SELECT * FROM afiliado.afiliacoes ORDER BY posicao ASC, nome';
       const result = await client.query(query);
       return result.rows;
     }
