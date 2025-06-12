@@ -25,6 +25,14 @@ async function query(rota, dados) {
         return result.rows[0];
       }
 
+      if (rota === 'cadastroSubcategoriaAfiliado') {
+        const { nome, id_categoria } = dados;
+        const query =
+          'INSERT INTO afiliado.subcategorias (nome, categoria_id) VALUES ($1, $2) RETURNING id, nome, categoria_id';
+        const result = await client.query(query, [nome, id_categoria]);
+        return result.rows[0];
+      }
+
       if (rota === 'cadastroProdutoAfiliado') {
         const {
           id,
