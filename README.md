@@ -11,7 +11,7 @@ A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhoo
 - `pages/_app.js` - Arquivo de configuração global.
 - `pages/api/v1/webhook` - Endpoint de webhook.
 - Rota `cadastroCategoriaAfiliado` no webhook - Endpoint para cadastrar categorias (envia `nome`, `label` e `descricao`).
-- Rota `cadastroSubcategoriaAfiliado` no webhook - Endpoint para cadastrar subcategorias (envia `nome`, `label` e `descricao`).
+- Rota `cadastroSubcategoriaAfiliado` no webhook - Endpoint para cadastrar subcategorias (envia `nome`, `label`, `descricao` e `palavras_chaves`).
 
  Este repositório contém um exemplo simples de projeto Next.js. A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhook`.
 
@@ -21,7 +21,7 @@ O endpoint `/api/v1/webhook` aceita requisições `POST` contendo no corpo JSON 
 
 ### Subcategorias
 
-A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias. A rota `cadastroSubcategoriaAfiliado` agora aceita os campos `nome`, `label` e `descricao` ao cadastrar uma subcategoria.
+A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias. A rota `cadastroSubcategoriaAfiliado` agora aceita os campos `nome`, `label`, `descricao` e `palavras_chaves` ao cadastrar uma subcategoria.
 
 ### Afiliações
 
