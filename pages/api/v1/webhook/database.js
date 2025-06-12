@@ -27,10 +27,11 @@ async function query(rota, dados) {
     }
 
     if (rota === 'cadastroSubcategoriaAfiliado') {
-      const { nome, id_categoria, label, descricao, palavras_chaves } = dados;
+      const { nome,  label, descricao, palavras_chave } = dados;
+      console.log(palavras_chave);
       const query =
-        'INSERT INTO afiliado.subcategorias (nome, categoria_id, label, descricao, palavras_chaves) VALUES ($1, $2, $3, $4, $5) RETURNING id, nome, categoria_id, label, descricao, palavras_chaves';
-      const result = await client.query(query, [nome, id_categoria, label, descricao, palavras_chaves]);
+        'INSERT INTO afiliado.subcategorias (nome,  label, descricao, palavras_chave) VALUES ($1, $2, $3, $4) RETURNING id, nome, label, descricao, palavras_chave';
+      const result = await client.query(query, [nome,  label, descricao, palavras_chave]);
       return result.rows[0];
     }
 
@@ -46,13 +47,7 @@ async function query(rota, dados) {
         idade_maxima,
       } = dados;
 
-      if (rota === 'cadastroSubcategoriaAfiliado') {
-        const { nome } = dados;
-        const query =
-          'INSERT INTO afiliado.subcategorias (nome) VALUES ($1) RETURNING id, nome';
-        const result = await client.query(query, [nome]);
-        return result.rows[0];
-      }
+    
       const id = uuidv4(); // gera novo UUID
       const data_criacao = new Date();
 
@@ -89,7 +84,7 @@ async function query(rota, dados) {
 
     if (rota === 'listarSubcategoriaAfiliado') {
       const query =
-        'SELECT id, nome, categoria_id, label, descricao, palavras_chaves FROM afiliado.subcategorias ORDER BY nome';
+        'SELECT id, nome, label, descricao, palavras_chave FROM afiliado.subcategorias ORDER BY nome';
       const result = await client.query(query);
       return result.rows;
     }
