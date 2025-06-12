@@ -35,46 +35,63 @@ async function query(rota, dados) {
       return result.rows[0];
     }
 
-    if (rota === 'cadastroProdutoAfiliado') {
-      const {
-        nome,
-        descricao,
-        imagem_url,
-        link_afiliado,
-        categoria_id,
-        subcategoria_id,
-        idade_minima,
-        idade_maxima,
-      } = dados;
+   if (rota === 'cadastroProdutoAfiliado') {
+  const {
+    nome,
+    descricao,
+    imagem_url,
+    link_afiliado,
+    categoria_id,
+    subcategoria_id,
+    idade_minima,
+    idade_maxima,
+    origem,
+    preco,
+    cliques = 0,
+    link_original,
+    frete = false
+  } = dados;
 
-    
-      const id = uuidv4(); // gera novo UUID
-      const data_criacao = new Date();
+  const id = uuidv4();
+  const data_criacao = new Date();
 
-      const queryText = `
-        INSERT INTO afiliado.afiliacoes (
-          id, nome, descricao, imagem_url, link_afiliado,
-          categoria_id, subcategoria_id, idade_minima, idade_maxima, data_criacao
-        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-        RETURNING *
-      `;
+  const queryText = `
+    INSERT INTO afiliado.afiliacoes (
+      id, nome, descricao, imagem_url, link_afiliado,
+      categoria_id, subcategoria_id, idade_minima, idade_maxima,
+      origem, preco, cliques, link_original, frete,
+      data_criacao
+    ) VALUES (
+      $1, $2, $3, $4, $5,
+      $6, $7, $8, $9,
+      $10, $11, $12, $13, $14,
+      $15
+    )
+    RETURNING *
+  `;
 
-      const values = [
-        id,
-        nome,
-        descricao,
-        imagem_url,
-        link_afiliado,
-        categoria_id,
-        subcategoria_id,
-        idade_minima,
-        idade_maxima,
-        data_criacao,
-      ];
+  const values = [
+    id,
+    nome,
+    descricao,
+    imagem_url,
+    link_afiliado,
+    categoria_id,
+    subcategoria_id,
+    idade_minima,
+    idade_maxima,
+    origem,
+    preco,
+    cliques,
+    link_original,
+    frete,
+    data_criacao
+  ];
 
-      const result = await client.query(queryText, values);
-      return result.rows[0];
-    }
+  const result = await client.query(queryText, values);
+  return result.rows[0];
+}
+
 
     if (rota === 'listarCategoriaAfiliado') {
       const query = 'SELECT id, nome, label, descricao FROM afiliado.categorias ORDER BY nome';
