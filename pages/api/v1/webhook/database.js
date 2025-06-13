@@ -70,7 +70,7 @@ async function query(rota, dados) {
     link_afiliado,
     categoria_id,
     subcategoria_id,
-    nicho,
+    nicho_id,
     origem,
     preco,
     cliques = 0,
@@ -84,7 +84,7 @@ async function query(rota, dados) {
   const queryText = `
     INSERT INTO afiliado.afiliacoes (
       id, nome, descricao, imagem_url, link_afiliado,
-      categoria_id, subcategoria_id, nicho,
+      categoria_id, subcategoria_id, nicho_id,
       origem, preco, cliques, link_original, frete,
       data_criacao
     ) VALUES (
@@ -104,7 +104,7 @@ async function query(rota, dados) {
     link_afiliado,
     categoria_id,
     subcategoria_id,
-    nicho,
+    nicho_id,
     origem,
     preco,
     cliques,
@@ -133,14 +133,14 @@ async function query(rota, dados) {
     }
 
    if (rota === 'listarProdutosAfiliado') {
-    const { nicho } = dados || {};
+    const { nicho_id } = dados || {};
 
     let query = 'SELECT * FROM afiliado.afiliacoes';
     const values = [];
 
-    if (nicho) {
-      query += ' WHERE nicho = $1';
-      values.push(nicho);
+    if (nicho_id) {
+      query += ' WHERE nicho_id = $1';
+      values.push(nicho_id);
     }
 
     query += ' ORDER BY nome';
