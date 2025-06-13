@@ -136,6 +136,19 @@ async function query(rota, dados) {
       return result.rows;
     }
 
+    if (rota === 'buscarProdutosAfiliado') {
+      const { nicho } = dados || {};
+      let query = 'SELECT * FROM afiliado.afiliacoes';
+      const values = [];
+      if (nicho) {
+        query += ' WHERE nicho ILIKE $1';
+        values.push(`%${nicho}%`);
+      }
+      query += ' ORDER BY nome';
+      const result = await client.query(query, values);
+      return result.rows;
+    }
+
     return { error: 'Rota não encontrada', dados };
   } catch (error) {
     console.error('Erro ao executar a consulta:', error);
