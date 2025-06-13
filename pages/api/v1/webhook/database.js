@@ -133,8 +133,6 @@ async function query(rota, dados) {
     }
 
   if (rota === 'listarProdutosAfiliado') {
-    const { nicho } = dados || {};
-   if (rota === 'listarProdutosAfiliado') {
     const { nicho_id } = dados || {};
 
     let query = 'SELECT * FROM afiliado.afiliacoes';
