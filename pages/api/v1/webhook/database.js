@@ -62,92 +62,113 @@ async function query(rota, dados) {
       return result.rows[0];
     }
 
- if (rota === 'cadastroProdutoAfiliado') {
-  const {
-    nome,
-    descricao,
-    imagem_url,
-    link_afiliado,
-    categoria_id,
-    subcategoria_id,
-    nicho_id,
-    origem,
-    preco,
-    cliques = 0,
-    link_original,
-    frete = false
-  } = dados;
+    if (rota === 'cadastroProdutoAfiliado') {
+      const {
+        nome,
+        descricao,
+        imagem_url,
+        link_afiliado,
+        categoria_id,
+        subcategoria_id,
+        nicho_id,
+        origem,
+        preco,
+        cliques = 0,
+        link_original,
+        frete = false
+      } = dados;
 
-  const id = uuidv4();
-  const data_criacao = new Date();
+      const id = uuidv4();
+      const data_criacao = new Date();
 
-  const queryText = `
-    INSERT INTO afiliado.afiliacoes (
-      id, nome, descricao, imagem_url, link_afiliado,
-      categoria_id, subcategoria_id, nicho_id,
-      origem, preco, cliques, link_original, frete,
-      data_criacao
-    ) VALUES (
-      $1, $2, $3, $4, $5,
-      $6, $7, $8,
-      $9, $10, $11, $12, $13,
-      $14
-    )
-    RETURNING *
-  `;
+      const queryText = `
+        INSERT INTO afiliado.afiliacoes (
+          id, nome, descricao, imagem_url, link_afiliado,
+          categoria_id, subcategoria_id, nicho_id,
+          origem, preco, cliques, link_original, frete,
+          data_criacao
+        ) VALUES (
+          $1, $2, $3, $4, $5,
+          $6, $7, $8,
+          $9, $10, $11, $12, $13,
+          $14
+        )
+        RETURNING *
+      `;
 
-  const values = [
-    id,
-    nome,
-    descricao,
-    imagem_url,
-    link_afiliado,
-    categoria_id,
-    subcategoria_id,
-    nicho_id,
-    origem,
-    preco,
-    cliques,
-    link_original,
-    frete,
-    data_criacao
-  ];
+      const values = [
+        id,
+        nome,
+        descricao,
+        imagem_url,
+        link_afiliado,
+        categoria_id,
+        subcategoria_id,
+        nicho_id,
+        origem,
+        preco,
+        cliques,
+        link_original,
+        frete,
+        data_criacao
+      ];
 
-  const result = await client.query(queryText, values);
-  return result.rows[0];
-}
-
+      const result = await client.query(queryText, values);
+      return result.rows[0];
+    }
 
 
     if (rota === 'listarCategoriaAfiliado') {
-      const query = 'SELECT id, nome, label, descricao FROM afiliado.categorias ORDER BY posicao ASC, nome';
-      const result = await client.query(query);
+      const { nicho_id } = dados || {};
+
+      if (!nicho_id) {
+        throw new Error('nicho_id é obrigatório para listar categorias');
+      }
+
+      const query = `
+        SELECT id, nome, label, descricao
+        FROM afiliado.categorias
+        WHERE nicho_id = $1
+        ORDER BY posicao ASC, nome
+      `;
+      const result = await client.query(query, [nicho_id]);
       return result.rows;
     }
 
     if (rota === 'listarSubcategoriaAfiliado') {
-      const query =
-        'SELECT id, nome, label, descricao, palavras_chave FROM afiliado.subcategorias ORDER BY nome';
-      const result = await client.query(query);
+      const { nicho_id } = dados || {};
+
+      if (!nicho_id) {
+        throw new Error('nicho_id é obrigatório para listar subcategorias');
+      }
+
+      const query = `
+        SELECT id, nome, label, descricao, palavras_chave
+        FROM afiliado.subcategorias
+        WHERE nicho_id = $1
+        ORDER BY nome
+      `;
+      const result = await client.query(query, [nicho_id]);
       return result.rows;
     }
 
-  if (rota === 'listarProdutosAfiliado') {
-    const { nicho_id } = dados || {};
+    if (rota === 'listarProdutosAfiliado') {
+      const { nicho_id } = dados || {};
 
-    let query = 'SELECT * FROM afiliado.afiliacoes';
-    const values = [];
+      let query = 'SELECT * FROM afiliado.afiliacoes';
+      const values = [];
 
-    if (nicho_id) {
-      query += ' WHERE nicho_id = $1';
-      values.push(nicho_id);
+      if (nicho_id) {
+        query += ' WHERE nicho_id = $1';
+        values.push(nicho_id);
+      }
+
+      query += ' ORDER BY nome';
+
+      const result = await client.query(query, values);
+      return result.rows;
     }
 
-    query += ' ORDER BY nome';
-
-    const result = await client.query(query, values);
-    return result.rows;
-  }
 
   if (rota === 'buscarAfiliadoPorEmail') {
     const { email } = dados || {};

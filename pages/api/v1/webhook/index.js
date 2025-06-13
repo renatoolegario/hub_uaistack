@@ -27,6 +27,11 @@ export default async function webhook(req, res) {
 
   const { rota, dados, auth, remetente } = req.body || {};
 
+
+  console.log("AAAAAAAAAA");
+  console.log(rota, dados, auth, remetente);
+  console.log("BBBBBBBBBB");
+
   if (!rota || !auth || !remetente) {
     return res.status(400).json({ error: 'rota, auth and remetente are required' });
   }
@@ -91,12 +96,16 @@ export default async function webhook(req, res) {
       }
 
       case 'listarCategoriaAfiliado': {
-        const resultado = await consultaBd('listarCategoriaAfiliado');
+        
+        const { nicho_id } = dados || {};
+        const resultado = await consultaBd('listarCategoriaAfiliado', {nicho_id});
         return res.status(200).json(resultado);
       }
 
       case 'listarSubcategoriaAfiliado': {
-        const resultado = await consultaBd('listarSubcategoriaAfiliado');
+        
+        const { nicho_id } = dados || {};
+        const resultado = await consultaBd('listarSubcategoriaAfiliado',{nicho_id});
         return res.status(200).json(resultado);
       }
 
