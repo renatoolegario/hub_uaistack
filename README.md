@@ -4,6 +4,15 @@
 Projeto de exemplo utilizando Next.js com React.
 A página inicial exibe `Site em construção...` e há um endpoint de API em `/api/v1/webhook`.
 
+## Configuração
+
+Copie o arquivo `.env.example` para `.env` e ajuste os valores de acordo com seu ambiente. Os seguintes campos precisam ser preenchidos:
+
+- `POSTGRES_URL`
+- `SECRET_KEY`
+- `IV`
+- `MANUTENCAO`
+
 ## Estrutura
 
 - `pages/api/v1/webhook/database.js` - Funções para acessar o banco de dados PostgreSQL.
