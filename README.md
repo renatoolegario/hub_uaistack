@@ -4,6 +4,15 @@
 Projeto de exemplo utilizando Next.js com React.
 A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhook`.
 
+## Configuração
+
+Copie o arquivo `.env.example` para `.env` e ajuste os valores de acordo com seu ambiente. Os seguintes campos precisam ser preenchidos:
+
+- `POSTGRES_URL`
+- `SECRET_KEY`
+- `IV`
+- `MANUTENCAO`
+
 ## Estrutura
 
 - `hooks/utils.js` - Funções para consumir APIs via `fetch` e criar um cliente PostgreSQL com `@vercel/postgres`.
