@@ -18,12 +18,12 @@ async function query(rota, dados) {
       if(manutencao === "sim"){
         const query ='SELECT 1 FROM auth.apikeys WHERE apikey = $1 LIMIT 1';
         const result = await client.query(query, [auth]);
-      console.log('resultado 1',result.rows);
+     
         return result.rows.length > 0;
       }else{
-        const query ='SELECT 1 FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
+        const query ='SELECT apikey,description  FROM auth.apikeys WHERE apikey = $1 AND description = $2 LIMIT 1';
         const result = await client.query(query, [auth, remetente]);
-         console.log('resultado 2',result.rows);
+        
         return result.rows.length > 0;
       }
       
