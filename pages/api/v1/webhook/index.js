@@ -50,7 +50,7 @@ export default async function webhook(req, res) {
      
 
       case 'cadastroCategoriaAfiliado': {
-        const { nome, label, descricao } = dados || {};
+        const { nome, label, descricao, nicho_id } = dados || {};
         if (!nome) {
           return res.status(400).json({ error: 'nome é obrigatório' });
         }
@@ -58,12 +58,13 @@ export default async function webhook(req, res) {
           nome,
           label,
           descricao,
+          nicho_id
         });
         return res.status(200).json(resultado);
       }
 
       case 'cadastroSubcategoriaAfiliado': {
-        const { nome, id_categoria, label, descricao, palavras_chave } = dados || {};
+        const { nome, id_categoria, label, descricao, palavras_chave, nicho_id } = dados || {};
         if (!nome) {
           return res.status(400).json({ error: 'nome é obrigatório' });
         }
@@ -73,6 +74,7 @@ export default async function webhook(req, res) {
           label,
           descricao,
           palavras_chave,
+          nicho_id
         });
         return res.status(200).json(resultado);
       }

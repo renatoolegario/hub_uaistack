@@ -31,19 +31,19 @@ async function query(rota, dados) {
     }
 
     if (rota === 'cadastroCategoriaAfiliado') {
-      const { nome, label, descricao } = dados;
+      const { nome, label, descricao, nicho_id} = dados;
       const query =
-        'INSERT INTO afiliado.categorias (nome, label, descricao) VALUES ($1, $2, $3) RETURNING id, nome, label, descricao';
-      const result = await client.query(query, [nome, label, descricao]);
+        'INSERT INTO afiliado.categorias (nome, label, descricao, nicho_id) VALUES ($1, $2, $3, $4) RETURNING id, nome, label, descricao, nicho_id';
+      const result = await client.query(query, [nome, label, descricao,nicho_id]);
       return result.rows[0];
     }
 
     if (rota === 'cadastroSubcategoriaAfiliado') {
-      const { nome,  label, descricao, palavras_chave } = dados;
-      console.log(palavras_chave);
+      const { nome,  label, descricao, palavras_chave, nicho_id } = dados;
+   
       const query =
-        'INSERT INTO afiliado.subcategorias (nome,  label, descricao, palavras_chave) VALUES ($1, $2, $3, $4) RETURNING id, nome, label, descricao, palavras_chave';
-      const result = await client.query(query, [nome,  label, descricao, palavras_chave]);
+        'INSERT INTO afiliado.subcategorias (nome,  label, descricao, palavras_chave, nicho_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, nome, label, descricao, palavras_chave,nicho_id';
+      const result = await client.query(query, [nome,  label, descricao, palavras_chave,nicho_id]);
       return result.rows[0];
     }
 
