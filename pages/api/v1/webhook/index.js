@@ -3,7 +3,7 @@ import consultaBd from './database';
 
 const allowedOrigins = [
   'https://afiliados-uaistack.vercel.app',
-  'https://grupo-das-mamaes.vercel.app',
+  'https://grupo-das-mamaess.vercel.app',
   'https://campanhas-uaistack.vercel.app'
 ];
 
