@@ -50,6 +50,9 @@ Todas as rotas utilizam o endpoint `/api/v1/webhook` com metodo `POST`. O corpo 
 - **listarSubcategoriaAfiliado**: `{ rota: "listarSubcategoriaAfiliado", auth, remetente }`
 - **listarProdutosAfiliado**: `{ rota: "listarProdutosAfiliado", auth, remetente }`
 - **buscarProdutosAfiliado**: `{ rota: "buscarProdutosAfiliado", dados: { nicho_id }, auth, remetente }`
+- **buscarProdutosAfiliado**: `{ rota: "buscarProdutosAfiliado", dados: { nicho }, auth, remetente }`
+- **buscarAfiliadoPorEmail**: `{ rota: "buscarAfiliadoPorEmail", dados: { email }, auth, remetente }`
+
 
 ## Scripts
 
