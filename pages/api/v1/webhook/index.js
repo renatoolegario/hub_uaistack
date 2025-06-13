@@ -4,7 +4,6 @@ const allowedOrigins = [
   'https://afiliados-uaistack.vercel.app',
   'https://grupo-das-mamaes.vercel.app',
   'https://campanhas-uaistack.vercel.app',
-  'http://localhost:3002'
 ];
 
 
@@ -27,10 +26,6 @@ export default async function webhook(req, res) {
 
   const { rota, dados, auth, remetente } = req.body || {};
 
-
-  console.log("AAAAAAAAAA");
-  console.log(rota, dados, auth, remetente);
-  console.log("BBBBBBBBBB");
 
   if (!rota || !auth || !remetente) {
     return res.status(400).json({ error: 'rota, auth and remetente are required' });
