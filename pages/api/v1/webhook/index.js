@@ -104,6 +104,7 @@ export default async function webhook(req, res) {
         const { nicho_id } = dados || {};
         const resultado = await consultaBd('listarProdutosAfiliado', { nicho_id });
 
+
         return res.status(200).json(resultado);
       }
 
@@ -113,6 +114,7 @@ export default async function webhook(req, res) {
           return res.status(400).json({ error: 'email é obrigatório' });
         }
         const resultado = await consultaBd('buscarAfiliadoPorEmail', { email });
+
 
         return res.status(200).json(resultado);
       }
