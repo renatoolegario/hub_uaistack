@@ -132,7 +132,7 @@ async function query(rota, dados) {
       return result.rows;
     }
 
-   if (rota === 'listarProdutosAfiliado') {
+  if (rota === 'listarProdutosAfiliado') {
     const { nicho } = dados || {};
 
     let query = 'SELECT * FROM afiliado.afiliacoes';
@@ -149,9 +149,16 @@ async function query(rota, dados) {
     return result.rows;
   }
 
+  if (rota === 'buscarAfiliadoPorEmail') {
+    const { email } = dados || {};
+    const query = 'SELECT nichos, admin FROM afiliado.afiliados WHERE email = $1 LIMIT 1';
+    const result = await client.query(query, [email]);
+    return result.rows[0];
+  }
 
 
-    return { error: 'Rota não encontrada', dados };
+
+  return { error: 'Rota não encontrada', dados };
   } catch (error) {
     console.error('Erro ao executar a consulta:', error);
     return { error: `Erro interno do servidor - ${error.message}` };
