@@ -119,7 +119,8 @@ export default async function webhook(req, res) {
       }
 
       case 'listarProdutosAfiliado': {
-        const resultado = await consultaBd('listarProdutosAfiliado');
+        const { nicho } = dados || {};
+        const resultado = await consultaBd('listarProdutosAfiliado', { nicho });
 
         return res.status(200).json(resultado);
       }
