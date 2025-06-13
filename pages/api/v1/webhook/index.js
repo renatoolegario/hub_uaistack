@@ -107,13 +107,6 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
-      case 'buscarProdutosAfiliado': {
-        const { nicho } = dados || {};
-        const resultado = await consultaBd('buscarProdutosAfiliado', { nicho });
-
-        return res.status(200).json(resultado);
-      }
-
       default:
         return res.status(400).json({ error: 'Rota desconhecida' });
     }
