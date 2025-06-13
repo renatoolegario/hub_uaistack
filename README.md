@@ -20,39 +20,66 @@ Copie o arquivo `.env.example` para `.env` e ajuste os valores de acordo com seu
 - `pages/_app.js` - Arquivo de configuração global.
 - `pages/api/v1/webhook` - Endpoint de webhook.
 - Rota `cadastroCategoriaAfiliado` no webhook - Endpoint para cadastrar categorias (envia `nome`, `label` e `descricao`).
-- Rota `cadastroSubcategoriaAfiliado` no webhook - Endpoint para cadastrar subcategorias (envia `nome`, `label`, `descricao` e `palavras_chaves`).
+- Rota `cadastroSubcategoriaAfiliado` no webhook - Endpoint para cadastrar subcategorias (envia `nome`, `label`, `descricao` e `palavras_chave`).
 - Rota `cadastroLeads` no webhook - Endpoint para cadastrar leads (envia `nome`, `whatsapp`, `origem` e `campanha_origem`).
 
  Este repositório contém um exemplo simples de projeto Next.js. A página inicial exibe `Site em construção...` e há um endpoint de API em `/api/v1/webhook`.
 
 ### Webhook
 
-O endpoint `/api/v1/webhook` aceita requisições `POST` contendo no corpo JSON os campos `rota`, `dados`, `auth` e `remetente`. A rota inicial disponível é `auth`, que verifica se o par `auth` e `remetente` existe na tabela `auth.apikeys`. Quando ambos coincidirem o retorno será `{ authorized: true }`, caso contrário `{ authorized: false }`.
+O endpoint `/api/v1/webhook` aceita requisicoes `POST` contendo no corpo JSON os campos `rota`, `dados`, `auth` e `remetente`. Os valores de `auth` e `remetente` sao validados antes de executar qualquer rota.
 
 ### Subcategorias
 
-A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias. A rota `cadastroSubcategoriaAfiliado` agora aceita os campos `nome`, `label`, `descricao` e `palavras_chaves` ao cadastrar uma subcategoria.
+A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias. A rota `cadastroSubcategoriaAfiliado` agora aceita os campos `nome`, `label`, `descricao` e `palavras_chave` ao cadastrar uma subcategoria.
 
 ### Afiliações
 
 Para cadastrar um novo produto de afiliado utilize a rota `cadastroProdutoAfiliado`.
 Agora, além dos campos já existentes, o backend aceita o campo `nicho_id` para indicar o nicho do produto.
 Não é necessário enviar o campo `data_criacao`, pois o backend registra a data de criação automaticamente com o timestamp atual do servidor.
+
 ## Documentacao de Endpoints
 
-Todas as rotas utilizam o endpoint `/api/v1/webhook` com metodo `POST`. O corpo da requisicao deve conter os campos `rota`, `dados`, `auth` e `remetente`.
-- **auth**: `{ rota: "auth", auth: "SUA_CHAVE", remetente: "descricao" }`
-- **cadastroCategoriaAfiliado**: `{ rota: "cadastroCategoriaAfiliado", dados: { nome, label, descricao }, auth, remetente }`
-- **cadastroSubcategoriaAfiliado**: `{ rota: "cadastroSubcategoriaAfiliado", dados: { nome, label, descricao, palavras_chave }, auth, remetente }`
-- **cadastroLeads**: `{ rota: "cadastroLeads", dados: { nome, whatsapp, origem, campanha_origem }, auth, remetente }`
-- **cadastroProdutoAfiliado**: `{ rota: "cadastroProdutoAfiliado", dados: { nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho_id, origem, preco, cliques, link_original, frete }, auth, remetente }`
-- **listarCategoriaAfiliado**: `{ rota: "listarCategoriaAfiliado", auth, remetente }`
-- **listarSubcategoriaAfiliado**: `{ rota: "listarSubcategoriaAfiliado", auth, remetente }`
-- **listarProdutosAfiliado**: `{ rota: "listarProdutosAfiliado", auth, remetente }`
-- **buscarProdutosAfiliado**: `{ rota: "buscarProdutosAfiliado", dados: { nicho_id }, auth, remetente }`
-- **buscarProdutosAfiliado**: `{ rota: "buscarProdutosAfiliado", dados: { nicho }, auth, remetente }`
-- **buscarAfiliadoPorEmail**: `{ rota: "buscarAfiliadoPorEmail", dados: { email }, auth, remetente }`
+Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 
+```json
+{ "rota": "nomeDaRota", "dados": { ... }, "auth": "SUA_CHAVE", "remetente": "descricao" }
+```
+
+### Rotas disponiveis
+
+- **cadastroCategoriaAfiliado**
+  - Entrada: `{ nome, label, descricao }`
+  - Saida: `{ id, nome, label, descricao }`
+
+- **cadastroSubcategoriaAfiliado**
+  - Entrada: `{ nome, label, descricao, palavras_chave }`
+  - Saida: `{ id, nome, label, descricao, palavras_chave }`
+
+- **cadastroLeads**
+  - Entrada: `{ nome, whatsapp, origem, campanha_origem }`
+  - Saida: registro inserido com `id` e `data_cadastro`
+
+- **cadastroProdutoAfiliado**
+  - Entrada: `{ nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }`
+  - Saida: registro inserido com `id` gerado e `data_criacao`
+
+- **listarCategoriaAfiliado**
+  - Entrada: nenhum campo em `dados`
+  - Saida: lista de `{ id, nome, label, descricao }`
+
+- **listarSubcategoriaAfiliado**
+  - Entrada: nenhum campo em `dados`
+  - Saida: lista de `{ id, nome, label, descricao, palavras_chave }`
+
+- **listarProdutosAfiliado**
+  - Entrada opcional: `{ nicho_id }`
+  - Saida: lista de produtos afiliados
+
+- **buscarAfiliadoPorEmail**
+  - Entrada: `{ email }`
+  - Saida: `{ nichos, admin }`
 
 ## Scripts
 
