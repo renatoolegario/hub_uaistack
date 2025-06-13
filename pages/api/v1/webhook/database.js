@@ -133,9 +133,18 @@ async function query(rota, dados) {
     }
 
    if (rota === 'listarProdutosAfiliado') {
-    const { nicho } = dados; // ou req.query, dependendo de onde vem o dado
-    const query = 'SELECT * FROM afiliado.afiliacoes WHERE nicho = $1 ORDER BY nome';
-    const values = [nicho];
+    const { nicho } = dados || {};
+
+    let query = 'SELECT * FROM afiliado.afiliacoes';
+    const values = [];
+
+    if (nicho) {
+      query += ' WHERE nicho = $1';
+      values.push(nicho);
+    }
+
+    query += ' ORDER BY nome';
+
     const result = await client.query(query, values);
     return result.rows;
   }
