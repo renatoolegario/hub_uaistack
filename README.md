@@ -36,7 +36,7 @@ A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias. A
 ### Afiliações
 
 Para cadastrar um novo produto de afiliado utilize a rota `cadastroProdutoAfiliado`.
-Agora, além dos campos já existentes, o backend aceita o campo `nicho` para indicar o nicho do produto.
+Agora, além dos campos já existentes, o backend aceita o campo `nicho_id` para indicar o nicho do produto.
 Não é necessário enviar o campo `data_criacao`, pois o backend registra a data de criação automaticamente com o timestamp atual do servidor.
 ## Documentacao de Endpoints
 
@@ -45,11 +45,11 @@ Todas as rotas utilizam o endpoint `/api/v1/webhook` com metodo `POST`. O corpo 
 - **cadastroCategoriaAfiliado**: `{ rota: "cadastroCategoriaAfiliado", dados: { nome, label, descricao }, auth, remetente }`
 - **cadastroSubcategoriaAfiliado**: `{ rota: "cadastroSubcategoriaAfiliado", dados: { nome, label, descricao, palavras_chave }, auth, remetente }`
 - **cadastroLeads**: `{ rota: "cadastroLeads", dados: { nome, whatsapp, origem, campanha_origem }, auth, remetente }`
-- **cadastroProdutoAfiliado**: `{ rota: "cadastroProdutoAfiliado", dados: { nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho, origem, preco, cliques, link_original, frete }, auth, remetente }`
+- **cadastroProdutoAfiliado**: `{ rota: "cadastroProdutoAfiliado", dados: { nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho_id, origem, preco, cliques, link_original, frete }, auth, remetente }`
 - **listarCategoriaAfiliado**: `{ rota: "listarCategoriaAfiliado", auth, remetente }`
 - **listarSubcategoriaAfiliado**: `{ rota: "listarSubcategoriaAfiliado", auth, remetente }`
 - **listarProdutosAfiliado**: `{ rota: "listarProdutosAfiliado", auth, remetente }`
-- **buscarProdutosAfiliado**: `{ rota: "buscarProdutosAfiliado", dados: { nicho }, auth, remetente }`
+- **buscarProdutosAfiliado**: `{ rota: "buscarProdutosAfiliado", dados: { nicho_id }, auth, remetente }`
 
 ## Scripts
 
