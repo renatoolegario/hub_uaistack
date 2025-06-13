@@ -132,24 +132,15 @@ async function query(rota, dados) {
       return result.rows;
     }
 
-    if (rota === 'listarProdutosAfiliado') {
-      const query = 'SELECT * FROM afiliado.afiliacoes ORDER BY nome';
-      const result = await client.query(query);
-      return result.rows;
-    }
+   if (rota === 'listarProdutosAfiliado') {
+    const { nicho } = dados; // ou req.query, dependendo de onde vem o dado
+    const query = 'SELECT * FROM afiliado.afiliacoes WHERE nicho = $1 ORDER BY nome';
+    const values = [nicho];
+    const result = await client.query(query, values);
+    return result.rows;
+  }
 
-    if (rota === 'buscarProdutosAfiliado') {
-      const { nicho } = dados || {};
-      let query = 'SELECT * FROM afiliado.afiliacoes';
-      const values = [];
-      if (nicho) {
-        query += ' WHERE nicho ILIKE $1';
-        values.push(`%${nicho}%`);
-      }
-      query += ' ORDER BY nome';
-      const result = await client.query(query, values);
-      return result.rows;
-    }
+
 
     return { error: 'Rota não encontrada', dados };
   } catch (error) {
