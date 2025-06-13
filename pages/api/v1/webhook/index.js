@@ -1,6 +1,12 @@
 import CryptoJS from 'crypto-js';
 import consultaBd from './database';
 
+const allowedOrigins = [
+  'https://afiliados-uaistack.vercel.app',
+  'https://grupo-das-mamaes.vercel.app',
+  'https://campanhas-uaistack.vercel.app'
+];
+
 async function conversaoCripto(conteudo) {
   const secretKey = process.env.SECRET_KEY;
   if (!secretKey) {
@@ -20,9 +26,13 @@ async function conversaoCripto(conteudo) {
 }
 
 export default async function webhook(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Vary', 'Origin');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
