@@ -2,11 +2,11 @@
 
 
 Projeto de exemplo utilizando Next.js com React.
-A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhook`.
+A página inicial exibe `Site em construção...` e há um endpoint de API em `/api/v1/webhook`.
 
 ## Estrutura
 
-- `hooks/utils.js` - Funções para consumir APIs via `fetch` e criar um cliente PostgreSQL com `@vercel/postgres`.
+- `pages/api/v1/webhook/database.js` - Funções para acessar o banco de dados PostgreSQL.
 - `pages/index.js` - Página principal.
 - `pages/_app.js` - Arquivo de configuração global.
 - `pages/api/v1/webhook` - Endpoint de webhook.
@@ -14,7 +14,7 @@ A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhoo
 - Rota `cadastroSubcategoriaAfiliado` no webhook - Endpoint para cadastrar subcategorias (envia `nome`, `label`, `descricao` e `palavras_chaves`).
 - Rota `cadastroLeads` no webhook - Endpoint para cadastrar leads (envia `nome`, `whatsapp`, `origem` e `campanha_origem`).
 
- Este repositório contém um exemplo simples de projeto Next.js. A página inicial exibe `Olá mundo` e há um endpoint de API em `/api/v1/webhook`.
+ Este repositório contém um exemplo simples de projeto Next.js. A página inicial exibe `Site em construção...` e há um endpoint de API em `/api/v1/webhook`.
 
 ### Webhook
 
@@ -34,9 +34,9 @@ Não é necessário enviar o campo `data_criacao`, pois o backend registra a dat
 Todas as rotas utilizam o endpoint `/api/v1/webhook` com metodo `POST`. O corpo da requisicao deve conter os campos `rota`, `dados`, `auth` e `remetente`.
 - **auth**: `{ rota: "auth", auth: "SUA_CHAVE", remetente: "descricao" }`
 - **cadastroCategoriaAfiliado**: `{ rota: "cadastroCategoriaAfiliado", dados: { nome, label, descricao }, auth, remetente }`
-- **cadastroSubcategoriaAfiliado**: `{ rota: "cadastroSubcategoriaAfiliado", dados: { nome, id_categoria, label, descricao, palavras_chave }, auth, remetente }`
+- **cadastroSubcategoriaAfiliado**: `{ rota: "cadastroSubcategoriaAfiliado", dados: { nome, label, descricao, palavras_chave }, auth, remetente }`
 - **cadastroLeads**: `{ rota: "cadastroLeads", dados: { nome, whatsapp, origem, campanha_origem }, auth, remetente }`
-- **cadastroProdutoAfiliado**: `{ rota: "cadastroProdutoAfiliado", dados: { nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho, idade_minima, idade_maxima, origem, preco, cliques, link_original, frete }, auth, remetente }`
+- **cadastroProdutoAfiliado**: `{ rota: "cadastroProdutoAfiliado", dados: { nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho, origem, preco, cliques, link_original, frete }, auth, remetente }`
 - **listarCategoriaAfiliado**: `{ rota: "listarCategoriaAfiliado", auth, remetente }`
 - **listarSubcategoriaAfiliado**: `{ rota: "listarSubcategoriaAfiliado", auth, remetente }`
 - **listarProdutosAfiliado**: `{ rota: "listarProdutosAfiliado", auth, remetente }`
