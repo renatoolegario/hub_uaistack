@@ -66,6 +66,10 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
   - Entrada: `{ nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }`
   - Saida: registro inserido com `id` gerado e `data_criacao`
 
+- **atualizarProdutoAfiliado**
+  - Entrada: `{ id, nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }`
+  - Saida: registro atualizado
+
 - **listarCategoriaAfiliado**
   - Entrada: nenhum campo em `dados`
   - Saida: lista de `{ id, nome, label, descricao }`
