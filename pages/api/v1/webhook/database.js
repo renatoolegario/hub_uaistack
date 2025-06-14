@@ -66,7 +66,7 @@ async function query(rota, dados) {
         descricao,
         imagem_url,
         link_afiliado,
-        categoria_id,
+        categorias,
         subcategoria_id,
         nicho_id,
         origem,
@@ -82,7 +82,7 @@ async function query(rota, dados) {
       const queryText = `
         INSERT INTO afiliado.afiliacoes (
           id, nome, descricao, imagem_url, link_afiliado,
-          categoria_id, subcategoria_id, nicho_id,
+          categorias, subcategoria_id, nicho_id,
           origem, preco, cliques, link_original, frete,
           data_criacao
         ) VALUES (
@@ -100,7 +100,7 @@ async function query(rota, dados) {
         descricao,
         imagem_url,
         link_afiliado,
-        categoria_id,
+        categorias,
         subcategoria_id,
         nicho_id,
         origem,

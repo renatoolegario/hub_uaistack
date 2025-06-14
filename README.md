@@ -37,6 +37,7 @@ A rota `listarSubcategoriaAfiliado` no webhook retorna todas as subcategorias. A
 
 Para cadastrar um novo produto de afiliado utilize a rota `cadastroProdutoAfiliado`.
 Agora, além dos campos já existentes, o backend aceita o campo `nicho_id` para indicar o nicho do produto.
+O campo `categorias` permite enviar uma lista de identificadores de categorias, possibilitando cadastrar o produto em mais de uma categoria.
 Não é necessário enviar o campo `data_criacao`, pois o backend registra a data de criação automaticamente com o timestamp atual do servidor.
 
 ## Documentacao de Endpoints
@@ -62,7 +63,7 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
   - Saida: registro inserido com `id` e `data_cadastro`
 
 - **cadastroProdutoAfiliado**
-  - Entrada: `{ nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }`
+  - Entrada: `{ nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }`
   - Saida: registro inserido com `id` gerado e `data_criacao`
 
 - **listarCategoriaAfiliado**
