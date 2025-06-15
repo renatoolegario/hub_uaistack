@@ -127,6 +127,13 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'listarAfiliacoesPendentes': {
+        const { nicho_id } = dados || {};
+        const resultado = await consultaBd('listarAfiliacoesPendentes', { nicho_id });
+
+        return res.status(200).json(resultado);
+      }
+
       case 'buscarAfiliadoPorEmail': {
         const { email } = dados || {};
         if (!email) {

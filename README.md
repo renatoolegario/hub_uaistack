@@ -40,6 +40,8 @@ Agora, além dos campos já existentes, o backend aceita o campo `nicho_id` para
 O campo `categorias` permite enviar uma lista de identificadores de categorias, possibilitando cadastrar o produto em mais de uma categoria.
 Não é necessário enviar o campo `data_criacao`, pois o backend registra a data de criação automaticamente com o timestamp atual do servidor.
 Produtos que aguardam análise podem ser cadastrados por meio da rota `cadastroAfiliacaoPendente`, armazenando as informações na tabela `afiliacoes_pendentes`.
+Para consultar esses registros utilize a rota `listarAfiliacoesPendentes`, que retorna todos os produtos pendentes.
+
 
 ## Documentacao de Endpoints
 
@@ -62,6 +64,7 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `listarCategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao }` |
 | `listarSubcategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao, palavras_chave }` |
 | `listarProdutosAfiliado` | `{ nicho_id? }` | Lista de produtos afiliados |
+| `listarAfiliacoesPendentes` | `{ nicho_id? }` | Lista de produtos pendentes |
 | `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
 
 ## Scripts

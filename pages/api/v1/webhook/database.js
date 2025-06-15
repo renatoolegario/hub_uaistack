@@ -271,8 +271,25 @@ async function query(rota, dados) {
       
 
       const result = await client.query(query, values);
-      
+
       console.log("AAA",result);
+      return result.rows;
+    }
+
+    if (rota === 'listarAfiliacoesPendentes') {
+      const { nicho_id } = dados || {};
+
+      let query = 'SELECT * FROM afiliado.afiliacoes_pendentes';
+      const values = [];
+
+      if (nicho_id) {
+        query += ' WHERE nicho_id = $1';
+        values.push(nicho_id);
+      }
+
+      query += ' ORDER BY nome';
+
+      const result = await client.query(query, values);
       return result.rows;
     }
 
