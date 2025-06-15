@@ -293,6 +293,57 @@ async function query(rota, dados) {
       return result.rows;
     }
 
+    if (rota === 'aprovarAfiliacaoPendente') {
+      const { id, categorias, subcategoria_id } = dados;
+
+      const selectQuery = 'SELECT * FROM afiliado.afiliacoes_pendentes WHERE id = $1 LIMIT 1';
+      const selectResult = await client.query(selectQuery, [id]);
+
+      if (selectResult.rows.length === 0) {
+        return { error: 'Afiliacao pendente não encontrada' };
+      }
+
+      const pendente = selectResult.rows[0];
+
+      const insertQuery = `
+        INSERT INTO afiliado.afiliacoes (
+          id, nome, descricao, imagem_url, link_afiliado,
+          categorias, subcategoria_id, nicho_id,
+          origem, preco, cliques, link_original, frete,
+          data_criacao
+        ) VALUES (
+          $1, $2, $3, $4, $5,
+          $6, $7, $8,
+          $9, $10, $11, $12, $13,
+          $14
+        )
+        RETURNING *
+      `;
+
+      const insertValues = [
+        pendente.id,
+        pendente.nome,
+        pendente.descricao,
+        pendente.imagem_url,
+        pendente.link_afiliado,
+        categorias,
+        subcategoria_id,
+        pendente.nicho_id,
+        pendente.origem,
+        pendente.preco,
+        pendente.cliques,
+        pendente.link_original,
+        pendente.frete,
+        pendente.data_criacao
+      ];
+
+      const insertResult = await client.query(insertQuery, insertValues);
+
+      await client.query('DELETE FROM afiliado.afiliacoes_pendentes WHERE id = $1', [id]);
+
+      return insertResult.rows[0];
+    }
+
 
   if (rota === 'buscarAfiliadoPorEmail') {
     const { email } = dados || {};

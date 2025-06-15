@@ -41,6 +41,7 @@ O campo `categorias` permite enviar uma lista de identificadores de categorias, 
 Não é necessário enviar o campo `data_criacao`, pois o backend registra a data de criação automaticamente com o timestamp atual do servidor.
 Produtos que aguardam análise podem ser cadastrados por meio da rota `cadastroAfiliacaoPendente`, armazenando as informações na tabela `afiliacoes_pendentes`.
 Para consultar esses registros utilize a rota `listarAfiliacoesPendentes`, que retorna todos os produtos pendentes.
+Para aprovar uma afiliação em análise utilize `aprovarAfiliacaoPendente`, movendo o registro para `afiliacoes` e removendo-o da tabela de pendentes.
 
 
 ## Documentacao de Endpoints
@@ -65,6 +66,7 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `listarSubcategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao, palavras_chave }` |
 | `listarProdutosAfiliado` | `{ nicho_id? }` | Lista de produtos afiliados |
 | `listarAfiliacoesPendentes` | `{ nicho_id? }` | Lista de produtos pendentes |
+| `aprovarAfiliacaoPendente` | `{ id, categorias, subcategoria_id }` | Registro aprovado movido para `afiliacoes` |
 | `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
 
 ## Scripts

@@ -134,6 +134,21 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'aprovarAfiliacaoPendente': {
+        const { id, categorias, subcategoria_id } = dados || {};
+        if (!id || !categorias || !subcategoria_id) {
+          return res.status(400).json({ error: 'id, categorias e subcategoria_id são obrigatórios' });
+        }
+
+        const resultado = await consultaBd('aprovarAfiliacaoPendente', {
+          id,
+          categorias,
+          subcategoria_id
+        });
+
+        return res.status(200).json(resultado);
+      }
+
       case 'buscarAfiliadoPorEmail': {
         const { email } = dados || {};
         if (!email) {
