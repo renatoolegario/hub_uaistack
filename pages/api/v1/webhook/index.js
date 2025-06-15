@@ -93,6 +93,12 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'cadastroAfiliacaoPendente': {
+        const resultado = await consultaBd('cadastroAfiliacaoPendente', dados);
+
+        return res.status(200).json(resultado);
+      }
+
       case 'atualizarProdutoAfiliado': {
         const resultado = await consultaBd('atualizarProdutoAfiliado', dados);
 
