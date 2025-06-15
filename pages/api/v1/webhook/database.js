@@ -357,6 +357,20 @@ async function query(rota, dados) {
       return result.rows.length > 0;
     }
 
+    if (rota === 'validarLinkOriginal') {
+      const { link_original } = dados || {};
+      const sanitizedLinkOriginal =
+        typeof link_original === 'string' ? link_original.split('#')[0] : link_original;
+      const query = `
+        SELECT 1 FROM afiliado.afiliacoes_pendentes WHERE link_original = $1
+        UNION ALL
+        SELECT 1 FROM afiliado.afiliacoes WHERE link_original = $1
+        LIMIT 1
+      `;
+      const result = await client.query(query, [sanitizedLinkOriginal]);
+      return result.rows.length > 0;
+    }
+
     if (rota === 'aprovarAfiliacaoPendente') {
       const { id, categorias, subcategoria_id } = dados;
 

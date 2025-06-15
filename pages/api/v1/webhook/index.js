@@ -146,6 +146,15 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'validarLinkOriginal': {
+        const { link_original } = dados || {};
+        if (!link_original) {
+          return res.status(400).json({ error: 'link_original é obrigatório' });
+        }
+        const resultado = await consultaBd('validarLinkOriginal', { link_original });
+        return res.status(200).json(resultado);
+      }
+
       case 'listarProdutosAfiliado': {
         const { nicho_id } = dados || {};
         const resultado = await consultaBd('listarProdutosAfiliado', { nicho_id });
