@@ -45,6 +45,19 @@ async function query(rota, dados) {
       return result.rows[0];
     }
 
+    if (rota === 'cadastroLinkRapido') {
+      const { nome, link, subcategoria_id, nicho_id } = dados;
+
+      const query = `
+        INSERT INTO afiliado.links_rapidos (nome, link, subcategoria_id, nicho_id)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, nome, link, subcategoria_id, nicho_id, criado_em
+      `;
+
+      const result = await client.query(query, [nome, link, subcategoria_id, nicho_id]);
+      return result.rows[0];
+    }
+
     if (rota === 'cadastroLeads') {
       const { nome, whatsapp, origem, campanha_origem } = dados;
       const data_cadastro = new Date();
@@ -290,6 +303,19 @@ async function query(rota, dados) {
       query += ' ORDER BY nome';
 
       const result = await client.query(query, values);
+      return result.rows;
+    }
+
+    if (rota === 'listarLinksRapidos') {
+      const { nicho_id } = dados || {};
+
+      const query = `
+        SELECT id, nome, link, subcategoria_id, nicho_id, criado_em
+        FROM afiliado.links_rapidos
+        WHERE nicho_id = $1
+        ORDER BY criado_em DESC
+      `;
+      const result = await client.query(query, [nicho_id]);
       return result.rows;
     }
 

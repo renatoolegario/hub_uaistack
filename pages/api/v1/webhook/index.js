@@ -74,6 +74,15 @@ export default async function webhook(req, res) {
         });
         return res.status(200).json(resultado);
       }
+
+      case 'cadastroLinkRapido': {
+        const { nome, link, subcategoria_id, nicho_id } = dados || {};
+        if (!nome || !link || !subcategoria_id || !nicho_id) {
+          return res.status(400).json({ error: 'nome, link, subcategoria_id e nicho_id são obrigatórios' });
+        }
+        const resultado = await consultaBd('cadastroLinkRapido', { nome, link, subcategoria_id, nicho_id });
+        return res.status(200).json(resultado);
+      }
       case 'cadastroLeads': {
         const { nome, whatsapp, origem, campanha_origem } = dados || {};
         if (!nome || !whatsapp) {
@@ -113,9 +122,18 @@ export default async function webhook(req, res) {
       }
 
       case 'listarSubcategoriaAfiliado': {
-        
+
         const { nicho_id } = dados || {};
         const resultado = await consultaBd('listarSubcategoriaAfiliado',{nicho_id});
+        return res.status(200).json(resultado);
+      }
+
+      case 'listarLinksRapidos': {
+        const { nicho_id } = dados || {};
+        if (!nicho_id) {
+          return res.status(400).json({ error: 'nicho_id é obrigatório' });
+        }
+        const resultado = await consultaBd('listarLinksRapidos', { nicho_id });
         return res.status(200).json(resultado);
       }
 
