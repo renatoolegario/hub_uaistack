@@ -93,6 +93,12 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'cadastroAfiliacaoPendente': {
+        const resultado = await consultaBd('cadastroAfiliacaoPendente', dados);
+
+        return res.status(200).json(resultado);
+      }
+
       case 'atualizarProdutoAfiliado': {
         const resultado = await consultaBd('atualizarProdutoAfiliado', dados);
 
@@ -117,6 +123,13 @@ export default async function webhook(req, res) {
         const { nicho_id } = dados || {};
         const resultado = await consultaBd('listarProdutosAfiliado', { nicho_id });
 
+
+        return res.status(200).json(resultado);
+      }
+
+      case 'listarAfiliacoesPendentes': {
+        const { nicho_id } = dados || {};
+        const resultado = await consultaBd('listarAfiliacoesPendentes', { nicho_id });
 
         return res.status(200).json(resultado);
       }

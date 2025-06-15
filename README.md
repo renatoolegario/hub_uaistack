@@ -39,6 +39,8 @@ Para cadastrar um novo produto de afiliado utilize a rota `cadastroProdutoAfilia
 Agora, além dos campos já existentes, o backend aceita o campo `nicho_id` para indicar o nicho do produto.
 O campo `categorias` permite enviar uma lista de identificadores de categorias, possibilitando cadastrar o produto em mais de uma categoria.
 Não é necessário enviar o campo `data_criacao`, pois o backend registra a data de criação automaticamente com o timestamp atual do servidor.
+Produtos que aguardam análise podem ser cadastrados por meio da rota `cadastroAfiliacaoPendente`, armazenando as informações na tabela `afiliacoes_pendentes`.
+Para consultar esses registros utilize a rota `listarAfiliacoesPendentes`, que retorna todos os produtos pendentes.
 
 ## Documentacao de Endpoints
 
@@ -56,10 +58,12 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `cadastroSubcategoriaAfiliado` | `{ nome, label, descricao, palavras_chave, nicho_id }` | `{ id, nome, label, descricao, palavras_chave, nicho_id }` |
 | `cadastroLeads` | `{ nome, whatsapp, origem, campanha_origem }` | Registro inserido com `id` e `data_cadastro` |
 | `cadastroProdutoAfiliado` | `{ nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }` | Registro inserido com `id` e `data_criacao` |
+| `cadastroAfiliacaoPendente` | `{ nome, descricao, imagem_url, link_afiliado, origem, preco, cliques?, link_original?, frete?, nicho_id }` | Registro pendente inserido |
 | `atualizarProdutoAfiliado` | `{ id, nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }` | Registro atualizado |
 | `listarCategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao }` |
 | `listarSubcategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao, palavras_chave }` |
 | `listarProdutosAfiliado` | `{ nicho_id? }` | Lista de produtos afiliados |
+| `listarAfiliacoesPendentes` | `{ nicho_id? }` | Lista de produtos pendentes |
 | `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
 
 ## Scripts

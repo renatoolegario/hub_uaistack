@@ -115,6 +115,55 @@ async function query(rota, dados) {
       return result.rows[0];
     }
 
+    if (rota === 'cadastroAfiliacaoPendente') {
+      const {
+        nome,
+        descricao,
+        imagem_url,
+        link_afiliado,
+        origem,
+        preco,
+        cliques = 0,
+        link_original,
+        frete = false,
+        nicho_id
+      } = dados;
+
+      const id = uuidv4();
+      const data_criacao = new Date();
+
+      const queryText = `
+        INSERT INTO afiliado.afiliacoes_pendentes (
+          id, nome, descricao, imagem_url, link_afiliado,
+          data_criacao, origem, preco, cliques,
+          link_original, frete, nicho_id
+        ) VALUES (
+          $1, $2, $3, $4, $5,
+          $6, $7, $8, $9,
+          $10, $11, $12
+        )
+        RETURNING *
+      `;
+
+      const values = [
+        id,
+        nome,
+        descricao,
+        imagem_url,
+        link_afiliado,
+        data_criacao,
+        origem,
+        preco,
+        cliques,
+        link_original,
+        frete,
+        nicho_id
+      ];
+
+      const result = await client.query(queryText, values);
+      return result.rows[0];
+    }
+
    if (rota === 'atualizarProdutoAfiliado') {
   const {
     id,
@@ -222,8 +271,25 @@ async function query(rota, dados) {
       
 
       const result = await client.query(query, values);
-      
+
       console.log("AAA",result);
+      return result.rows;
+    }
+
+    if (rota === 'listarAfiliacoesPendentes') {
+      const { nicho_id } = dados || {};
+
+      let query = 'SELECT * FROM afiliado.afiliacoes_pendentes';
+      const values = [];
+
+      if (nicho_id) {
+        query += ' WHERE nicho_id = $1';
+        values.push(nicho_id);
+      }
+
+      query += ' ORDER BY nome';
+
+      const result = await client.query(query, values);
       return result.rows;
     }
 
