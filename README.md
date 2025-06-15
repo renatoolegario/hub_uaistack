@@ -77,6 +77,8 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
 | `validarApikeyAfiliado` | `{ apikey }` | `true` se a chave existir, senão `false` |
 
+Ao cadastrar produtos ou afiliacões pendentes, o campo `link_original` é processado para remover qualquer parte após o caractere `#`.
+
 ## Scripts
 
 - `npm run dev` – inicia o servidor de desenvolvimento.
