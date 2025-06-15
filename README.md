@@ -42,6 +42,7 @@ Não é necessário enviar o campo `data_criacao`, pois o backend registra a dat
 Produtos que aguardam análise podem ser cadastrados por meio da rota `cadastroAfiliacaoPendente`, armazenando as informações na tabela `afiliacoes_pendentes`.
 Para consultar esses registros utilize a rota `listarAfiliacoesPendentes`, que retorna todos os produtos pendentes.
 
+
 ## Documentacao de Endpoints
 
 Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
