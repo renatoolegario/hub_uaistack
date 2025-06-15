@@ -325,6 +325,13 @@ async function query(rota, dados) {
       return result.rows;
     }
 
+    if (rota === 'validarLinkRapido') {
+      const { link } = dados || {};
+      const query = 'SELECT 1 FROM afiliado.links_rapidos WHERE link = $1 LIMIT 1';
+      const result = await client.query(query, [link]);
+      return result.rows.length > 0;
+    }
+
     if (rota === 'aprovarAfiliacaoPendente') {
       const { id, categorias, subcategoria_id } = dados;
 
