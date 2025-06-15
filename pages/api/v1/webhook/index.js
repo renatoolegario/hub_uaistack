@@ -160,6 +160,15 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'validarApikeyAfiliado': {
+        const { apikey } = dados || {};
+        if (!apikey) {
+          return res.status(400).json({ error: 'apikey é obrigatório' });
+        }
+        const resultado = await consultaBd('validarApikeyAfiliado', { apikey });
+        return res.status(200).json(resultado);
+      }
+
       default:
         return res.status(400).json({ error: 'Rota desconhecida' });
     }

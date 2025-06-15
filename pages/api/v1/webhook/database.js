@@ -352,6 +352,13 @@ async function query(rota, dados) {
     return result.rows[0];
   }
 
+  if (rota === 'validarApikeyAfiliado') {
+    const { apikey } = dados || {};
+    const query = 'SELECT 1 FROM afiliado.afiliados WHERE apikey = $1 LIMIT 1';
+    const result = await client.query(query, [apikey]);
+    return result.rows.length > 0;
+  }
+
 
 
   return { error: 'Rota não encontrada', dados };

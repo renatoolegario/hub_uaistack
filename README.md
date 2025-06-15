@@ -68,6 +68,7 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `listarAfiliacoesPendentes` | `{ nicho_id? }` | Lista de produtos pendentes |
 | `aprovarAfiliacaoPendente` | `{ id, categorias, subcategoria_id }` | Registro aprovado movido para `afiliacoes` |
 | `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
+| `validarApikeyAfiliado` | `{ apikey }` | `true` se a chave existir, senão `false` |
 
 ## Scripts
 
