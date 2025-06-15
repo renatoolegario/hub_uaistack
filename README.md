@@ -48,6 +48,7 @@ Para aprovar uma afiliação em análise utilize `aprovarAfiliacaoPendente`, mov
 
 A rota `cadastroLinkRapido` permite cadastrar um link rápido vinculado a uma subcategoria e nicho.
 Utilize `listarLinksRapidos` para buscar todos os links de um determinado `nicho_id`.
+Use `validarLinkRapido` para verificar se um link já está cadastrado.
 
 
 ## Documentacao de Endpoints
@@ -77,6 +78,7 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `aprovarAfiliacaoPendente` | `{ id, categorias, subcategoria_id }` | Registro aprovado movido para `afiliacoes` |
 | `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
 | `validarApikeyAfiliado` | `{ apikey }` | `true` se a chave existir, senão `false` |
+| `validarLinkRapido` | `{ link }` | `true` se o link existir, senão `false` |
 
 Ao cadastrar produtos ou afiliações pendentes, o campo `link_original` é processado para remover qualquer parte após o caractere `#`. O backend também verifica se o link tratado já está registrado; caso exista, a requisição retorna um erro informando que o cadastro já foi realizado.
 
