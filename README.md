@@ -50,41 +50,17 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 
 ### Rotas disponiveis
 
-- **cadastroCategoriaAfiliado**
-  - Entrada: `{ nome, label, descricao }`
-  - Saida: `{ id, nome, label, descricao }`
-
-- **cadastroSubcategoriaAfiliado**
-  - Entrada: `{ nome, label, descricao, palavras_chave }`
-  - Saida: `{ id, nome, label, descricao, palavras_chave }`
-
-- **cadastroLeads**
-  - Entrada: `{ nome, whatsapp, origem, campanha_origem }`
-  - Saida: registro inserido com `id` e `data_cadastro`
-
-- **cadastroProdutoAfiliado**
-  - Entrada: `{ nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }`
-  - Saida: registro inserido com `id` gerado e `data_criacao`
-
-- **atualizarProdutoAfiliado**
-  - Entrada: `{ id, nome, descricao, imagem_url, link_afiliado, categoria_id, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }`
-  - Saida: registro atualizado
-
-- **listarCategoriaAfiliado**
-  - Entrada: nenhum campo em `dados`
-  - Saida: lista de `{ id, nome, label, descricao }`
-
-- **listarSubcategoriaAfiliado**
-  - Entrada: nenhum campo em `dados`
-  - Saida: lista de `{ id, nome, label, descricao, palavras_chave }`
-
-- **listarProdutosAfiliado**
-  - Entrada opcional: `{ nicho_id }`
-  - Saida: lista de produtos afiliados
-
-- **buscarAfiliadoPorEmail**
-  - Entrada: `{ email }`
-  - Saida: `{ nichos, admin }`
+| Rota | Dados de entrada | Resposta |
+|------|-----------------|----------|
+| `cadastroCategoriaAfiliado` | `{ nome, label, descricao, nicho_id }` | `{ id, nome, label, descricao, nicho_id }` |
+| `cadastroSubcategoriaAfiliado` | `{ nome, label, descricao, palavras_chave, nicho_id }` | `{ id, nome, label, descricao, palavras_chave, nicho_id }` |
+| `cadastroLeads` | `{ nome, whatsapp, origem, campanha_origem }` | Registro inserido com `id` e `data_cadastro` |
+| `cadastroProdutoAfiliado` | `{ nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }` | Registro inserido com `id` e `data_criacao` |
+| `atualizarProdutoAfiliado` | `{ id, nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }` | Registro atualizado |
+| `listarCategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao }` |
+| `listarSubcategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao, palavras_chave }` |
+| `listarProdutosAfiliado` | `{ nicho_id? }` | Lista de produtos afiliados |
+| `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
 
 ## Scripts
 
