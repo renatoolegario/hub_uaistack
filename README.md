@@ -39,6 +39,7 @@ Para cadastrar um novo produto de afiliado utilize a rota `cadastroProdutoAfilia
 Agora, além dos campos já existentes, o backend aceita o campo `nicho_id` para indicar o nicho do produto.
 O campo `categorias` permite enviar uma lista de identificadores de categorias, possibilitando cadastrar o produto em mais de uma categoria.
 Não é necessário enviar o campo `data_criacao`, pois o backend registra a data de criação automaticamente com o timestamp atual do servidor.
+Antes de inserir uma nova afiliação, o sistema consulta se o `link_original` (após ser tratado) já está cadastrado nas tabelas de afiliações ou pendentes. Se encontrar um registro existente, retorna um erro informando que o link já foi cadastrado.
 Produtos que aguardam análise podem ser cadastrados por meio da rota `cadastroAfiliacaoPendente`, armazenando as informações na tabela `afiliacoes_pendentes`.
 Para consultar esses registros utilize a rota `listarAfiliacoesPendentes`, que retorna todos os produtos pendentes.
 Para aprovar uma afiliação em análise utilize `aprovarAfiliacaoPendente`, movendo o registro para `afiliacoes` e removendo-o da tabela de pendentes.
@@ -77,7 +78,7 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
 | `validarApikeyAfiliado` | `{ apikey }` | `true` se a chave existir, senão `false` |
 
-Ao cadastrar produtos ou afiliacões pendentes, o campo `link_original` é processado para remover qualquer parte após o caractere `#`.
+Ao cadastrar produtos ou afiliações pendentes, o campo `link_original` é processado para remover qualquer parte após o caractere `#`. O backend também verifica se o link tratado já está registrado; caso exista, a requisição retorna um erro informando que o cadastro já foi realizado.
 
 ## Scripts
 

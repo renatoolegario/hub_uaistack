@@ -92,6 +92,19 @@ async function query(rota, dados) {
       const sanitizedLinkOriginal =
         typeof link_original === 'string' ? link_original.split('#')[0] : link_original;
 
+      const duplicateQuery = `
+        SELECT 1 FROM afiliado.afiliacoes_pendentes WHERE link_original = $1
+        UNION ALL
+        SELECT 1 FROM afiliado.afiliacoes WHERE link_original = $1
+        LIMIT 1
+      `;
+      const duplicateResult = await client.query(duplicateQuery, [sanitizedLinkOriginal]);
+
+      if (duplicateResult.rows.length > 0) {
+        return { error: 'Link ja cadastrado' };
+      }
+
+
       const id = uuidv4();
       const data_criacao = new Date();
 
@@ -147,6 +160,18 @@ async function query(rota, dados) {
 
       const sanitizedLinkOriginal =
         typeof link_original === 'string' ? link_original.split('#')[0] : link_original;
+
+      const duplicateQuery = `
+        SELECT 1 FROM afiliado.afiliacoes_pendentes WHERE link_original = $1
+        UNION ALL
+        SELECT 1 FROM afiliado.afiliacoes WHERE link_original = $1
+        LIMIT 1
+      `;
+      const duplicateResult = await client.query(duplicateQuery, [sanitizedLinkOriginal]);
+
+      if (duplicateResult.rows.length > 0) {
+        return { error: 'Link ja cadastrado' };
+      }
 
       const id = uuidv4();
       const data_criacao = new Date();
