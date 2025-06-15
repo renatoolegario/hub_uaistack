@@ -115,60 +115,61 @@ async function query(rota, dados) {
       return result.rows[0];
     }
 
-    if (rota === 'atualizarProdutoAfiliado') {
-      const {
-        id,
-        nome,
-        descricao,
-        imagem_url,
-        link_afiliado,
-        categoria_id,
-        subcategoria_id,
-        nicho_id,
-        origem,
-        preco,
-        cliques = 0,
-        link_original,
-        frete = false,
-      } = dados;
+   if (rota === 'atualizarProdutoAfiliado') {
+  const {
+    id,
+    nome,
+    descricao,
+    imagem_url,
+    link_afiliado,
+    categorias, // ✅ agora array de uuid[]
+    subcategoria_id,
+    nicho_id,
+    origem,
+    preco,
+    cliques = 0,
+    link_original,
+    frete = false,
+  } = dados;
 
-      const queryText = `
-        UPDATE afiliado.afiliacoes SET
-          nome = $2,
-          descricao = $3,
-          imagem_url = $4,
-          link_afiliado = $5,
-          categoria_id = $6,
-          subcategoria_id = $7,
-          nicho_id = $8,
-          origem = $9,
-          preco = $10,
-          cliques = $11,
-          link_original = $12,
-          frete = $13
-        WHERE id = $1
-        RETURNING *
-      `;
+  const queryText = `
+    UPDATE afiliado.afiliacoes SET
+      nome = $2,
+      descricao = $3,
+      imagem_url = $4,
+      link_afiliado = $5,
+      categorias = $6,
+      subcategoria_id = $7,
+      nicho_id = $8,
+      origem = $9,
+      preco = $10,
+      cliques = $11,
+      link_original = $12,
+      frete = $13
+    WHERE id = $1
+    RETURNING *
+  `;
 
-      const values = [
-        id,
-        nome,
-        descricao,
-        imagem_url,
-        link_afiliado,
-        categoria_id,
-        subcategoria_id,
-        nicho_id,
-        origem,
-        preco,
-        cliques,
-        link_original,
-        frete,
-      ];
+  const values = [
+    id,
+    nome,
+    descricao,
+    imagem_url,
+    link_afiliado,
+    categorias, // ✅ já em formato de array de UUIDs
+    subcategoria_id,
+    nicho_id,
+    origem,
+    preco,
+    cliques,
+    link_original,
+    frete,
+  ];
 
-      const result = await client.query(queryText, values);
-      return result.rows[0];
-    }
+  const result = await client.query(queryText, values);
+  return result.rows[0];
+  }
+
 
 
     if (rota === 'listarCategoriaAfiliado') {
@@ -218,7 +219,11 @@ async function query(rota, dados) {
 
       query += ' ORDER BY nome';
 
+      
+
       const result = await client.query(query, values);
+      
+      console.log("AAA",result);
       return result.rows;
     }
 
