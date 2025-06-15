@@ -89,6 +89,9 @@ async function query(rota, dados) {
         frete = false
       } = dados;
 
+      const sanitizedLinkOriginal =
+        typeof link_original === 'string' ? link_original.split('#')[0] : link_original;
+
       const id = uuidv4();
       const data_criacao = new Date();
 
@@ -119,7 +122,7 @@ async function query(rota, dados) {
         origem,
         preco,
         cliques,
-        link_original,
+        sanitizedLinkOriginal,
         frete,
         data_criacao
       ];
@@ -141,6 +144,9 @@ async function query(rota, dados) {
         frete = false,
         nicho_id
       } = dados;
+
+      const sanitizedLinkOriginal =
+        typeof link_original === 'string' ? link_original.split('#')[0] : link_original;
 
       const id = uuidv4();
       const data_criacao = new Date();
@@ -168,7 +174,7 @@ async function query(rota, dados) {
         origem,
         preco,
         cliques,
-        link_original,
+        sanitizedLinkOriginal,
         frete,
         nicho_id
       ];
