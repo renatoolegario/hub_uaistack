@@ -316,7 +316,6 @@ async function query(rota, dados) {
 
       const result = await client.query(query, values);
 
-      console.log("AAA",result);
       return result.rows;
     }
 

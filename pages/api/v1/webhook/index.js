@@ -27,7 +27,6 @@ export default async function webhook(req, res) {
 
   const { rota, dados, auth, remetente } = req.body || {};
 
-  console.log("A",rota, dados, auth, remetente );
   if (!rota || !auth || !remetente) {
     return res.status(400).json({ error: 'rota, auth and remetente are required' });
   }
@@ -35,11 +34,9 @@ export default async function webhook(req, res) {
   try {
     // 1. Verificar se auth é válido
     const authorized = await consultaBd('auth', { auth, remetente });
-    console.log("B",authorized);
     if (!authorized) {
       return res.status(403).json({ error: 'Acesso negado' }); // ou 'refused'
     }
-    console.log("AAAAAA");
     // 2. Se autorizado, executar a rota solicitada
     switch (rota) {
       // Você pode adicionar cases conforme necessário
