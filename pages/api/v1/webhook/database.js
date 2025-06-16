@@ -371,15 +371,16 @@ async function query(rota, dados) {
     }
 
 
-    if (rota === 'cadastroLinkParaAfiliar') {
+if (rota === 'cadastroLinkParaAfiliar') {
   const { link, nicho, status = 'aguardando', chat_telegram = null } = dados || {};
-  console.log("Links para cadastrar",link, nicho, status, chat_telegram);
+
   const query = `
     INSERT INTO afiliado.link_para_afiliar (link, nicho, status, chat_telegram)
-     VALUES ($1, $2, $3, $4)
+    VALUES ($1, $2, $3, $4)
     ON CONFLICT (link) DO NOTHING
     RETURNING id, link, nicho, status, data_criacao
   `;
+
   const result = await client.query(query, [link, nicho, status, chat_telegram]);
 
   if (result.rowCount === 0) {
@@ -388,6 +389,7 @@ async function query(rota, dados) {
 
   return { ok: true, ...result.rows[0] };
 }
+
 
 
 
