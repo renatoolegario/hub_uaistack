@@ -27,7 +27,8 @@ export default async function webhook(req, res) {
 
   const { rota, dados, auth, remetente } = req.body || {};
 
-
+  console.log("Dados Recebidos");
+  console.log(rota, dados, auth, remetente);
   if (!rota || !auth || !remetente) {
     return res.status(400).json({ error: 'rota, auth and remetente are required' });
   }
@@ -99,11 +100,9 @@ export default async function webhook(req, res) {
 
       case 'cadastroLinkParaAfiliar': {
         const { link, nicho, status } = dados || {};
-        console.log("A",dados);
         if (!link || !nicho) {
           return res.status(400).json({ error: 'link e nicho são obrigatórios' });
         }
-        console.log("B",dados);
         const resultado = await consultaBd('cadastroLinkParaAfiliar', {
           link,
           nicho,
