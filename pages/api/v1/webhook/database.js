@@ -370,16 +370,19 @@ async function query(rota, dados) {
       return result.rows.length > 0;
     }
 
-    if (rota === 'cadastroLinkParaAfiliar') {
-      const { link, nicho, status = 'aguardando' } = dados || {};
-      const query = `
-        INSERT INTO afiliado.link_para_afiliar (link, nicho, status)
-        VALUES ($1, $2, $3)
-        RETURNING id, link, nicho, status, data_criacao
-      `;
-      const result = await client.query(query, [link, nicho, status]);
-      return result.rows[0];
-    }
+   if (rota === 'cadastroLinkParaAfiliar') {
+    const { link, nicho, status = 'aguardando', chat_telegram = null } = dados || {};
+
+    const query = `
+      INSERT INTO afiliado.link_para_afiliar (link, nicho, status, chat_telegram)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, link, nicho, status, chat_telegram, data_criacao
+    `;
+    
+    const result = await client.query(query, [link, nicho, status, chat_telegram]);
+    return result.rows[0];
+  }
+
 
     if (rota === 'buscarLinkParaAfiliar') {
       const query = `
