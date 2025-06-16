@@ -382,10 +382,10 @@ async function query(rota, dados) {
   const result = await client.query(query, [link, nicho, status, chat_telegram]);
 
   if (result.rowCount === 0) {
-    return { erro: 'Link já cadastrado.' };
+    return { ok: true, duplicado: true, mensagem: 'Link já cadastrado.' };
   }
 
-  return result.rows[0];
+  return { ok: true, ...result.rows[0] };
 }
 
 
