@@ -96,6 +96,19 @@ export default async function webhook(req, res) {
         });
         return res.status(200).json(resultado);
       }
+
+      case 'cadastroLinkParaAfiliar': {
+        const { link, nicho, status } = dados || {};
+        if (!link || !nicho) {
+          return res.status(400).json({ error: 'link e nicho são obrigatórios' });
+        }
+        const resultado = await consultaBd('cadastroLinkParaAfiliar', {
+          link,
+          nicho,
+          status,
+        });
+        return res.status(200).json(resultado);
+      }
       case 'cadastroProdutoAfiliado': {
         const resultado = await consultaBd('cadastroProdutoAfiliado', dados);
 
@@ -152,6 +165,11 @@ export default async function webhook(req, res) {
           return res.status(400).json({ error: 'link_original é obrigatório' });
         }
         const resultado = await consultaBd('validarLinkOriginal', { link_original });
+        return res.status(200).json(resultado);
+      }
+
+      case 'buscarLinkParaAfiliar': {
+        const resultado = await consultaBd('buscarLinkParaAfiliar');
         return res.status(200).json(resultado);
       }
 
