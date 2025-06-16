@@ -371,6 +371,29 @@ async function query(rota, dados) {
       return result.rows.length > 0;
     }
 
+    if (rota === 'cadastroLinkParaAfiliar') {
+      const { link, nicho, status = 'aguardando' } = dados || {};
+      const query = `
+        INSERT INTO afiliado.link_para_afiliar (link, nicho, status)
+        VALUES ($1, $2, $3)
+        RETURNING id, link, nicho, status, data_criacao
+      `;
+      const result = await client.query(query, [link, nicho, status]);
+      return result.rows[0];
+    }
+
+    if (rota === 'buscarLinkParaAfiliar') {
+      const query = `
+        SELECT id, link, nicho, status, data_criacao
+        FROM afiliado.link_para_afiliar
+        WHERE status = 'aguardando'
+        ORDER BY data_criacao ASC
+        LIMIT 1
+      `;
+      const result = await client.query(query);
+      return result.rows[0];
+    }
+
     if (rota === 'aprovarAfiliacaoPendente') {
       const { id, categorias, subcategoria_id } = dados;
 

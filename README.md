@@ -22,6 +22,8 @@ Copie o arquivo `.env.example` para `.env` e ajuste os valores de acordo com seu
 - Rota `cadastroCategoriaAfiliado` no webhook - Endpoint para cadastrar categorias (envia `nome`, `label` e `descricao`).
 - Rota `cadastroSubcategoriaAfiliado` no webhook - Endpoint para cadastrar subcategorias (envia `nome`, `label`, `descricao` e `palavras_chave`).
 - Rota `cadastroLeads` no webhook - Endpoint para cadastrar leads (envia `nome`, `whatsapp`, `origem` e `campanha_origem`).
+- Rota `cadastroLinkParaAfiliar` no webhook - Endpoint para cadastrar um link na tabela `link_para_afiliar`.
+- Rota `buscarLinkParaAfiliar` no webhook - Retorna um link aguardando processamento.
 
  Este repositório contém um exemplo simples de projeto Next.js. A página inicial exibe `Site em construção...` e há um endpoint de API em `/api/v1/webhook`.
 
@@ -70,6 +72,8 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `cadastroProdutoAfiliado` | `{ nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }` | Registro inserido com `id` e `data_criacao` |
 | `cadastroAfiliacaoPendente` | `{ nome, descricao, imagem_url, link_afiliado, origem, preco, cliques?, link_original?, frete?, nicho_id }` | Registro pendente inserido |
 | `cadastroLinkRapido` | `{ nome, link, subcategoria_id, nicho_id }` | `{ id, nome, link, subcategoria_id, nicho_id, criado_em }` |
+| `cadastroLinkParaAfiliar` | `{ link, nicho, status? }` | Registro inserido com `id` e `data_criacao` |
+| `buscarLinkParaAfiliar` | `{}` | Primeira ocorrência com `status = 'aguardando'` |
 | `atualizarProdutoAfiliado` | `{ id, nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }` | Registro atualizado |
 | `listarCategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao }` |
 | `listarSubcategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao, palavras_chave }` |
