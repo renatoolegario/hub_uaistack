@@ -221,6 +221,24 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'salvarSessaoPuppeteer': {
+        const { nome, dados: conteudo } = dados || {};
+        if (!nome || !conteudo) {
+          return res.status(400).json({ error: 'nome e dados são obrigatórios' });
+        }
+        const resultado = await consultaBd('salvarSessaoPuppeteer', { nome, dados: conteudo });
+        return res.status(200).json(resultado);
+      }
+
+      case 'buscarSessaoPuppeteer': {
+        const { nome } = dados || {};
+        if (!nome) {
+          return res.status(400).json({ error: 'nome é obrigatório' });
+        }
+        const resultado = await consultaBd('buscarSessaoPuppeteer', { nome });
+        return res.status(200).json(resultado);
+      }
+
       default:
         return res.status(400).json({ error: 'Rota desconhecida' });
     }

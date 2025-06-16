@@ -85,6 +85,8 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `validarApikeyAfiliado` | `{ apikey }` | `true` se a chave existir, senão `false` |
 | `validarLinkRapido` | `{ link }` | `true` se o link existir, senão `false` |
 | `validarLinkOriginal` | `{ link_original }` | `true` se o link existir, senão `false` |
+| `salvarSessaoPuppeteer` | `{ nome, dados }` | Registro criado ou atualizado |
+| `buscarSessaoPuppeteer` | `{ nome }` | Dados da sessão solicitada |
 
 Ao cadastrar produtos ou afiliações pendentes, o campo `link_original` é processado para remover qualquer parte após o caractere `#`. O backend também verifica se o link tratado já está registrado; caso exista, a requisição retorna um erro informando que o cadastro já foi realizado.
 
