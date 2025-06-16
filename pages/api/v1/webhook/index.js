@@ -99,9 +99,11 @@ export default async function webhook(req, res) {
 
       case 'cadastroLinkParaAfiliar': {
         const { link, nicho, status } = dados || {};
+        console.log("A",dados);
         if (!link || !nicho) {
           return res.status(400).json({ error: 'link e nicho são obrigatórios' });
         }
+        console.log("B",dados);
         const resultado = await consultaBd('cadastroLinkParaAfiliar', {
           link,
           nicho,
