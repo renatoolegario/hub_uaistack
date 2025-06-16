@@ -373,6 +373,7 @@ async function query(rota, dados) {
 
     if (rota === 'cadastroLinkParaAfiliar') {
   const { link, nicho, status = 'aguardando', chat_telegram = null } = dados || {};
+  console.log("Links para cadastrar",link, nicho, status, chat_telegram);
   const query = `
     INSERT INTO afiliado.link_para_afiliar (link, nicho, status, chat_telegram)
      VALUES ($1, $2, $3, $4)
