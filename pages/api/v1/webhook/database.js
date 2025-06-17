@@ -481,6 +481,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
             atualizado_em = NOW()
       RETURNING id, nome, dados, atualizado_em, criado_em`;
     const result = await client.query(query, [nome, conteudo]);
+    console.log(result, nome, conteudo);
     return result.rows[0];
   }
 
