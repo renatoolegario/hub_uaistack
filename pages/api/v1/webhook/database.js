@@ -155,7 +155,8 @@ async function query(rota, dados) {
         cliques = 0,
         link_original,
         frete = false,
-        nicho_id
+        nicho_id,
+        id_link_para_afiliar
       } = dados;
 
       const sanitizedLinkOriginal =
@@ -170,6 +171,7 @@ async function query(rota, dados) {
       const duplicateResult = await client.query(duplicateQuery, [sanitizedLinkOriginal]);
 
       if (duplicateResult.rows.length > 0) {
+        //aqui quero que retire esse link no schema afiliado na tabela link_para_afiliar
         return { error: 'Link ja cadastrado' };
       }
 
