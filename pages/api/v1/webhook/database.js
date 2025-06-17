@@ -471,6 +471,26 @@ if (rota === 'cadastroLinkParaAfiliar') {
     return result.rows.length > 0;
   }
 
+  if (rota === 'salvarSessaoPuppeteer') {
+    const { nome, dados: conteudo } = dados || {};
+    const query = `
+      INSERT INTO automacoes_puppeteer.sessoes (nome, dados)
+      VALUES ($1, $2)
+      ON CONFLICT (nome) DO UPDATE
+        SET dados = EXCLUDED.dados,
+            atualizado_em = NOW()
+      RETURNING id, nome, dados, atualizado_em, criado_em`;
+    const result = await client.query(query, [nome, conteudo]);
+    return result.rows[0];
+  }
+
+  if (rota === 'buscarSessaoPuppeteer') {
+    const { nome } = dados || {};
+    const query = 'SELECT id, nome, dados, atualizado_em, criado_em FROM automacoes_puppeteer.sessoes WHERE nome = $1 LIMIT 1';
+    const result = await client.query(query, [nome]);
+    return result.rows[0];
+  }
+
 
 
   return { error: 'Rota não encontrada', dados };
