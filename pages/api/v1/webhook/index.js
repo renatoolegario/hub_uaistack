@@ -172,6 +172,15 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'deletarLinkParaAfiliar': {
+        const { id } = dados || {};
+        if (!id) {
+          return res.status(400).json({ error: 'id é obrigatório' });
+        }
+        const resultado = await consultaBd('deletarLinkParaAfiliar', { id });
+        return res.status(200).json(resultado);
+      }
+
       case 'listarProdutosAfiliado': {
         const { nicho_id } = dados || {};
         const resultado = await consultaBd('listarProdutosAfiliado', { nicho_id });
