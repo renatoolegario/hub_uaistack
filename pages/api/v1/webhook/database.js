@@ -419,6 +419,12 @@ if (rota === 'cadastroLinkParaAfiliar') {
       const result = await client.query(query);
       return result.rows[0];
     }
+    if (rota === 'deletarLinkParaAfiliar') {
+      const { id } = dados || {};
+      const query = 'DELETE FROM afiliado.link_para_afiliar WHERE id = $1 RETURNING id';
+      const result = await client.query(query, [id]);
+      return result.rows[0];
+    }
 
     if (rota === 'aprovarAfiliacaoPendente') {
       const { id, categorias, subcategoria_id } = dados;
