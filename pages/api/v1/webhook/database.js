@@ -171,7 +171,13 @@ async function query(rota, dados) {
       const duplicateResult = await client.query(duplicateQuery, [sanitizedLinkOriginal]);
 
       if (duplicateResult.rows.length > 0) {
-        //aqui quero que retire esse link no schema afiliado na tabela link_para_afiliar
+        // Remove o link pendente de afiliação caso já exista
+        if (id_link_para_afiliar) {
+          await client.query(
+            'DELETE FROM afiliado.link_para_afiliar WHERE id = $1',
+            [id_link_para_afiliar]
+          );
+        }
         return { error: 'Link ja cadastrado' };
       }
 
@@ -207,6 +213,13 @@ async function query(rota, dados) {
       ];
 
       const result = await client.query(queryText, values);
+      // Após o cadastro remove o registro correspondente em link_para_afiliar
+      if (id_link_para_afiliar) {
+        await client.query(
+          'DELETE FROM afiliado.link_para_afiliar WHERE id = $1',
+          [id_link_para_afiliar]
+        );
+      }
       return result.rows[0];
     }
 
