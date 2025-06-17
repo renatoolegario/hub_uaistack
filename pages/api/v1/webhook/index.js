@@ -4,6 +4,7 @@ const allowedOrigins = [
   'https://afiliados-uaistack.vercel.app',
   'https://grupo-das-mamaes.vercel.app',
   'https://campanhas-uaistack.vercel.app',
+  'https://www.mercadolivre.com.br',
   'http://localhost:3000',
 ];
 
