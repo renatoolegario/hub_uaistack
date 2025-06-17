@@ -345,7 +345,7 @@ async function query(rota, dados) {
         values.push(nicho_id);
       }
 
-      query += ' ORDER BY nome';
+      query += ' ORDER BY data_criacao ASC';
 
       const result = await client.query(query, values);
       return result.rows;
