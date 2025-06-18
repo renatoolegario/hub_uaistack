@@ -375,6 +375,13 @@ async function query(rota, dados) {
       return result.rows;
     }
 
+    if (rota === 'buscarProdutoAfiliado') {
+      const { id } = dados || {};
+      const query = 'SELECT * FROM afiliado.afiliacoes WHERE id = $1 LIMIT 1';
+      const result = await client.query(query, [id]);
+      return result.rows[0];
+    }
+
     if (rota === 'listarAfiliacoesPendentes') {
       const { nicho_id } = dados || {};
 

@@ -81,6 +81,7 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `listarSubcategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao, palavras_chave }` |
 | `listarLinksRapidos` | `{ nicho_id }` | Lista de links rápidos |
 | `listarProdutosAfiliado` | `{ nicho_id? }` | Lista de produtos afiliados |
+| `buscarProdutoAfiliado` | `{ id }` | Dados completos do produto |
 | `listarAfiliacoesPendentes` | `{ nicho_id? }` | Lista de produtos pendentes |
 | `aprovarAfiliacaoPendente` | `{ id, categorias, subcategoria_id }` | Registro aprovado movido para `afiliacoes` |
 | `buscarAfiliadoPorEmail` | `{ email }` | `{ nichos, admin }` |
