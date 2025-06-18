@@ -264,7 +264,7 @@ async function query(rota, dados) {
     }
 
 
-   if (rota === 'atualizarProdutoAfiliado') {
+  if (rota === 'atualizarProdutoAfiliado') {
   const {
     id,
     nome,
@@ -317,6 +317,18 @@ async function query(rota, dados) {
 
   const result = await client.query(queryText, values);
   return result.rows[0];
+  }
+
+  if (rota === 'atualizarContadorProduto') {
+    const { id } = dados || {};
+    const query = `
+      UPDATE afiliado.afiliacoes
+      SET cliques = cliques + 1
+      WHERE id = $1
+      RETURNING id, cliques
+    `;
+    const result = await client.query(query, [id]);
+    return result.rows[0];
   }
 
 
