@@ -42,10 +42,9 @@ export default async function handler(req, res) {
         link_curto: linkCurto,
       }, null, 2)}
 
-      Finalize com este CTA exatamente como abaixo (o [LINK] será substituído depois):
+      Finalize com este CTA com ação baseada no prodtuo que seja curta exemplo abaixo :
 
       🛒 [QUERO ESSE PRODUTO AGORA!]
-      [LINK]
       `;
 
     const gptResponse = await openai.chat.completions.create({
