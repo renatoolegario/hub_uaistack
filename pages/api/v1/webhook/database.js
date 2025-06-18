@@ -601,17 +601,36 @@ if (rota === 'cadastroLinkParaAfiliar') {
   console.log('[QUERY] Nicho selecionado:', nichoId);
 
   const buscaQuery = `
-    SELECT a.id, a.nome, a.imagem_url, a.link_afiliado, a.origem, a.preco, a.frete, a.texto_para_grupo, s."label"
+    SELECT 
+      a.id,
+      a.nome,
+      a.imagem_url,
+      a.link_afiliado,
+      a.origem,
+      a.preco,
+      a.frete,
+      a.texto_para_grupo,
+      s."label",
+      COALESCE((
+        SELECT json_agg(json_build_object(
+          'nome_grupo', g.nome_grupo,
+          'identificacao_grupo', g.identificacao_grupo,
+          'canal', g.canal
+        ))
+        FROM afiliado.grupo g
+        WHERE g.nicho_grupo = a.nicho_id
+      ), '[]') AS grupos
     FROM afiliado.afiliacoes a
     JOIN afiliado.subcategorias s ON s.id = a.subcategoria_id
     WHERE a.nicho_id = $1
-      AND (data_proxima_verificacao <= CURRENT_DATE OR data_proxima_verificacao IS NULL)
-      AND texto_para_grupo IS NOT NULL
-      AND texto_para_grupo <> ''
-      AND status_para_grupo = true
-      AND status_produto = true
-    ORDER BY data_proxima_verificacao ASC
+      AND (a.data_proxima_verificacao <= CURRENT_DATE OR a.data_proxima_verificacao IS NULL)
+      AND a.texto_para_grupo IS NOT NULL
+      AND a.texto_para_grupo <> ''
+      AND a.status_para_grupo = true
+      AND a.status_produto = true
+    ORDER BY a.data_proxima_verificacao ASC
     LIMIT 1;
+
   `;
   const buscaResult = await client.query(buscaQuery, [nichoId]);
 
