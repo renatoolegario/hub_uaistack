@@ -1,6 +1,17 @@
 import { createPool } from '@vercel/postgres';
 import { v4 as uuidv4 } from 'uuid'; // novo import
 
+
+function gerarCodigoCurto(tamanho = 4) {
+  const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let codigo = '';
+  for (let i = 0; i < tamanho; i++) {
+    codigo += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+  }
+  return codigo;
+}
+
+
 async function query(rota, dados) {
   if (!process.env.POSTGRES_URL) {
     return { error: 'Variável de ambiente POSTGRES_URL não definida' };
@@ -500,56 +511,79 @@ if (rota === 'cadastroLinkParaAfiliar') {
       return result.rows[0];
     }
 
-    if (rota === 'aprovarAfiliacaoPendente') {
-      const { id, categorias, subcategoria_id } = dados;
 
-      const selectQuery = 'SELECT * FROM afiliado.afiliacoes_pendentes WHERE id = $1 LIMIT 1';
-      const selectResult = await client.query(selectQuery, [id]);
 
-      if (selectResult.rows.length === 0) {
-        return { error: 'Afiliacao pendente não encontrada' };
+    async function gerarCodigoUnico(client) {
+      let codigo;
+      let existe = true;
+
+      while (existe) {
+        codigo = gerarCodigoCurto();
+        const { rows } = await client.query(
+          'SELECT 1 FROM afiliado.afiliacoes WHERE codigo_curto = $1 LIMIT 1',
+          [codigo]
+        );
+        existe = rows.length > 0;
       }
 
-      const pendente = selectResult.rows[0];
-
-      const insertQuery = `
-        INSERT INTO afiliado.afiliacoes (
-          id, nome, descricao, imagem_url, link_afiliado,
-          categorias, subcategoria_id, nicho_id,
-          origem, preco, cliques, link_original, frete,
-          data_criacao
-        ) VALUES (
-          $1, $2, $3, $4, $5,
-          $6, $7, $8,
-          $9, $10, $11, $12, $13,
-          $14
-        )
-        RETURNING *
-      `;
-
-      const insertValues = [
-        pendente.id,
-        pendente.nome,
-        pendente.descricao,
-        pendente.imagem_url,
-        pendente.link_afiliado,
-        categorias,
-        subcategoria_id,
-        pendente.nicho_id,
-        pendente.origem,
-        pendente.preco,
-        pendente.cliques,
-        pendente.link_original,
-        pendente.frete,
-        pendente.data_criacao
-      ];
-
-      const insertResult = await client.query(insertQuery, insertValues);
-
-      await client.query('DELETE FROM afiliado.afiliacoes_pendentes WHERE id = $1', [id]);
-
-      return insertResult.rows[0];
+      return codigo;
     }
+
+
+
+   if (rota === 'aprovarAfiliacaoPendente') {
+    const { id, categorias, subcategoria_id } = dados;
+
+    const selectQuery = 'SELECT * FROM afiliado.afiliacoes_pendentes WHERE id = $1 LIMIT 1';
+    const selectResult = await client.query(selectQuery, [id]);
+
+    if (selectResult.rows.length === 0) {
+      return { error: 'Afiliacao pendente não encontrada' };
+    }
+
+    const pendente = selectResult.rows[0];
+    const codigoCurto = await gerarCodigoUnico(client); // 👈 novo código aqui
+
+    const insertQuery = `
+      INSERT INTO afiliado.afiliacoes (
+        id, nome, descricao, imagem_url, link_afiliado,
+        categorias, subcategoria_id, nicho_id,
+        origem, preco, cliques, link_original, frete,
+        data_criacao, codigo_curto
+      ) VALUES (
+        $1, $2, $3, $4, $5,
+        $6, $7, $8,
+        $9, $10, $11, $12, $13,
+        $14, $15
+      )
+      RETURNING *
+    `;
+
+    const insertValues = [
+      pendente.id,
+      pendente.nome,
+      pendente.descricao,
+      pendente.imagem_url,
+      pendente.link_afiliado,
+      categorias,
+      subcategoria_id,
+      pendente.nicho_id,
+      pendente.origem,
+      pendente.preco,
+      pendente.cliques,
+      pendente.link_original,
+      pendente.frete,
+      pendente.data_criacao,
+      codigoCurto 
+    ];
+
+    const insertResult = await client.query(insertQuery, insertValues);
+
+    await client.query('DELETE FROM afiliado.afiliacoes_pendentes WHERE id = $1', [id]);
+    
+    return insertResult.rows[0];
+  }
+
 
 
   if (rota === 'buscarAfiliadoPorEmail') {
