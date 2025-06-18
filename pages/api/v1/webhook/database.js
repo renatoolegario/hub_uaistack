@@ -646,6 +646,8 @@ if (rota === 'cadastroLinkParaAfiliar') {
       a.preco,
       a.frete,
       a.texto_para_grupo,
+      b.landingpage,
+      a.codigo_curto,
       s."label",
       COALESCE((
         SELECT json_agg(json_build_object(
@@ -658,6 +660,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
       ), '[]') AS grupos
     FROM afiliado.afiliacoes a
     JOIN afiliado.subcategorias s ON s.id = a.subcategoria_id
+    join afiliado.afiliados b on b.nichos = a.nicho_id
     WHERE a.nicho_id = $1
       AND (a.data_proxima_verificacao <= CURRENT_DATE OR a.data_proxima_verificacao IS NULL)
       AND a.texto_para_grupo IS NOT NULL
