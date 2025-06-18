@@ -21,14 +21,20 @@ export default async function handler(req, res) {
       Gere um texto de venda empático e atrativo com até 5 parágrafos curtos. Use emojis.
 
       Siga o modelo abaixo:
-      👕✨ Kit 5 Bodies Manga Curta – Seu Bebê Merece Esse Conforto!
+      [TITULO = NOME]👕✨ *Kit 5 Bodies Manga Curta*
 
-      Mamãe, sabe aquele body que veste fácil, é leve, fresquinho e parece abraço?
+      [QUEBRA GELO] Mamãe, sabe aquele body que veste fácil, é leve, fresquinho e parece abraço?
       Esse kit com 5 peças em suedine 100% algodão é exatamente isso.
 
+      [DETALHES RESUMIDOS]
       ✅ Tecido macio e respirável (perfeito pra peles sensíveis)
       ✅ Costura suave, nada de marcas ou incômodos
       ✅ Cores neutras e lindas: combinam com qualquer look
+
+      [VALOR]
+      💰 *R$ 29,00*
+      [SE FRETE = TRUE FAÇA ABAIXO]
+      (Aqui deu frete *gratis!*)
 
       🛒 [QUERO ESSE KIT AGORA!]
 
