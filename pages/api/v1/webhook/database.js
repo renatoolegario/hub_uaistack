@@ -144,7 +144,7 @@ async function query(rota, dados) {
       return result.rows[0];
     }
 
-    if (rota === 'cadastroAfiliacaoPendente') {
+  if (rota === 'cadastroAfiliacaoPendente') {
       const {
         nome,
         descricao,
@@ -162,7 +162,7 @@ async function query(rota, dados) {
       const sanitizedLinkOriginal =
         typeof link_original === 'string' ? link_original.split('#')[0] : link_original;
 
-  // Se informado, busca o nicho vinculado ao link na tabela link_para_afiliar
+      // Se informado, busca o nicho vinculado ao link na tabela link_para_afiliar
       let nichoIdFinal = nicho_id;
       if (id_link_para_afiliar) {
         const nichoQuery = 'SELECT nicho FROM afiliado.link_para_afiliar WHERE id = $1 LIMIT 1';
@@ -172,8 +172,7 @@ async function query(rota, dados) {
         }
       }
 
-
-
+      // Verifica se o link já existe
       const duplicateQuery = `
         SELECT 1 FROM afiliado.afiliacoes_pendentes WHERE link_original = $1
         UNION ALL
@@ -183,7 +182,6 @@ async function query(rota, dados) {
       const duplicateResult = await client.query(duplicateQuery, [sanitizedLinkOriginal]);
 
       if (duplicateResult.rows.length > 0) {
-        // Remove o link pendente de afiliação caso já exista
         if (id_link_para_afiliar) {
           await client.query(
             'DELETE FROM afiliado.link_para_afiliar WHERE id = $1',
@@ -225,15 +223,46 @@ async function query(rota, dados) {
       ];
 
       const result = await client.query(queryText, values);
-      // Após o cadastro remove o registro correspondente em link_para_afiliar
+      let response = result.rows[0];
+
+      // Se houver id_link_para_afiliar, busca chat_telegram e contagem de links restantes
       if (id_link_para_afiliar) {
+        const chatQuery = `
+          SELECT chat_telegram 
+          FROM afiliado.link_para_afiliar 
+          WHERE id = $1 
+          LIMIT 1
+        `;
+        const chatResult = await client.query(chatQuery, [id_link_para_afiliar]);
+
+        if (chatResult.rows.length > 0) {
+          const chatTelegram = chatResult.rows[0].chat_telegram;
+
+          const countQuery = `
+            SELECT COUNT(*) 
+            FROM afiliado.link_para_afiliar 
+            WHERE chat_telegram = $1
+          `;
+          const countResult = await client.query(countQuery, [chatTelegram]);
+          const restantes = parseInt(countResult.rows[0].count, 10);
+
+          response = {
+            ...response,
+            chat_telegram: chatTelegram,
+            links_restantes: restantes
+          };
+        }
+
+        // Remove o link que acabou de ser processado
         await client.query(
           'DELETE FROM afiliado.link_para_afiliar WHERE id = $1',
           [id_link_para_afiliar]
         );
       }
-      return result.rows[0];
+
+      return response;
     }
+
 
    if (rota === 'atualizarProdutoAfiliado') {
   const {
