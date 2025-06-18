@@ -126,6 +126,15 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'atualizarContadorProduto': {
+        const { id } = dados || {};
+        if (!id) {
+          return res.status(400).json({ error: 'id é obrigatório' });
+        }
+        const resultado = await consultaBd('atualizarContadorProduto', { id });
+        return res.status(200).json(resultado);
+      }
+
       case 'listarCategoriaAfiliado': {
         
         const { nicho_id } = dados || {};

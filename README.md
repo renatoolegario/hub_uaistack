@@ -47,6 +47,7 @@ Produtos que aguardam análise podem ser cadastrados por meio da rota `cadastroA
 Para consultar esses registros utilize a rota `listarAfiliacoesPendentes`, que retorna todos os produtos pendentes.
 Para aprovar uma afiliação em análise utilize `aprovarAfiliacaoPendente`, movendo o registro para `afiliacoes` e removendo-o da tabela de pendentes.
 Para verificar se um `link_original` já foi cadastrado utilize a rota `validarLinkOriginal`.
+Para registrar um clique em um produto existente use `atualizarContadorProduto` informando o `id`.
 
 ### Links Rápidos
 
@@ -77,6 +78,7 @@ Todas as requisicoes devem usar `POST /api/v1/webhook` com o corpo JSON:
 | `buscarLinkParaAfiliar` | `{}` | Primeira ocorrência com `status = 'aguardando'` |
 | `deletarLinkParaAfiliar` | `{ id }` | `{ id }` do link removido |
 | `atualizarProdutoAfiliado` | `{ id, nome, descricao, imagem_url, link_afiliado, categorias, subcategoria_id, nicho_id, origem, preco, cliques?, link_original?, frete? }` | Registro atualizado |
+| `atualizarContadorProduto` | `{ id }` | `{ id, cliques }` com contador incrementado |
 | `listarCategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao }` |
 | `listarSubcategoriaAfiliado` | `{ nicho_id }` | Lista de `{ id, nome, label, descricao, palavras_chave }` |
 | `listarLinksRapidos` | `{ nicho_id }` | Lista de links rápidos |
