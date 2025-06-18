@@ -102,6 +102,12 @@ Ao cadastrar produtos ou afiliações pendentes, o campo `link_original` é proc
 - `npm run build` – cria a aplicação para produção.
 - `npm run start` – executa a versão de produção.
 
+## Cron job
+
+Um job agendado pela Vercel executa `pages/api/v1/cron/gerarTextoParaGrupo` a cada minuto.
+Ele busca uma afiliação sem texto publicitário, gera o texto com a OpenAI utilizando
+`CHAVE_GPT` e armazena em `afiliado.afiliacoes.texto_para_grupo`.
+
 ## Licença
 
 MIT

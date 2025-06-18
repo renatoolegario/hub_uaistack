@@ -695,6 +695,30 @@ if (rota === 'cadastroLinkParaAfiliar') {
     return result.rows[0];
   }
 
+  if (rota === 'buscarAfiliacaoSemTexto') {
+    const query = `
+      SELECT id, nome, descricao, preco, frete, codigo_curto
+      FROM afiliado.afiliacoes
+      WHERE (texto_para_grupo IS NULL OR texto_para_grupo = '')
+      ORDER BY data_criacao ASC
+      LIMIT 1
+    `;
+    const result = await client.query(query);
+    return result.rows[0];
+  }
+
+  if (rota === 'salvarTextoParaGrupo') {
+    const { id, texto } = dados || {};
+    const query = `
+      UPDATE afiliado.afiliacoes
+      SET texto_para_grupo = $2
+      WHERE id = $1
+      RETURNING id, texto_para_grupo
+    `;
+    const result = await client.query(query, [id, texto]);
+    return result.rows[0];
+  }
+
 
 
   return { error: 'Rota não encontrada', dados };
