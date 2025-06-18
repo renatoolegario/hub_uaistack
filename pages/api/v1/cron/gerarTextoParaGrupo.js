@@ -19,21 +19,24 @@ export default async function handler(req, res) {
 
     const prompt = `
       Gere um texto de venda empático e atrativo com até 5 parágrafos curtos. Use emojis.
+      [TITULO = NOME]
+      [QUEBRA GELO]
+      [DETALHES RESUMIDOS]
+      [VALOR]
 
       Siga o modelo abaixo:
-      [TITULO = NOME]👕✨ *Kit 5 Bodies Manga Curta*
+      👕✨ *Kit 5 Bodies Manga Curta*
 
-      [QUEBRA GELO] Mamãe, sabe aquele body que veste fácil, é leve, fresquinho e parece abraço?
+      Mamãe, sabe aquele body que veste fácil, é leve, fresquinho e parece abraço?
       Esse kit com 5 peças em suedine 100% algodão é exatamente isso.
 
-      [DETALHES RESUMIDOS]
+     
       ✅ Tecido macio e respirável (perfeito pra peles sensíveis)
       ✅ Costura suave, nada de marcas ou incômodos
       ✅ Cores neutras e lindas: combinam com qualquer look
 
-      [VALOR]
-      💰 *R$ 29,00*
-      [SE FRETE = TRUE FAÇA ABAIXO]
+    
+      💰 *R$ 29,00*      
       (Aqui deu frete *gratis!*)
 
       🛒 [QUERO ESSE KIT AGORA!]
