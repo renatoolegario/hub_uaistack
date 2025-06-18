@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     const openai = new OpenAI({ apiKey: process.env.CHAVE_GPT });
-    const linkCurto = `${process.env.BASE_LINK_CURTO || ''}${registro.codigo_curto}`;
+    const linkCurto = `${registro.codigo_curto}`;
 
     const prompt =
       `Gere um texto de venda empático e atrativo com até 5 parágrafos curtos,  com base nesse produto:\n` +
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
         frete: registro.frete,
         link_curto: linkCurto,
       }, null, 2) +
-      `\n\nFinalize com um botão de CTA assim:\n\n🛒 [QUERO ESSE PRODUTO AGORA!]\n${linkCurto}`;
+      `\n\nFinalize com um botão de CTA assim, o [LINK] é harded code vai ser exatamete esse texto:\n\n🛒 [QUERO ESSE PRODUTO AGORA!]\n [LINK]`;
 
     const gptResponse = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
