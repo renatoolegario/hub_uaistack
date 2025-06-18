@@ -428,7 +428,21 @@ async function query(rota, dados) {
 
 
 if (rota === 'cadastroLinkParaAfiliar') {
-  const { link, nicho, status = 'aguardando', chat_telegram = null } = dados || {};
+  let { link, nicho, status = 'aguardando', chat_telegram = null } = dados || {};
+
+  if (chat_telegram === null && nicho) {
+    const buscarChatQuery = `
+      SELECT chat_telegram 
+      FROM afiliado.afiliados 
+      WHERE $1 = ANY (nichos)
+      LIMIT 1
+    `;
+    const chatResult = await client.query(buscarChatQuery, [nicho]);
+
+    if (chatResult.rows.length > 0) {
+      chat_telegram = chatResult.rows[0].chat_telegram;
+    }
+  }
 
   const query = `
     INSERT INTO afiliado.link_para_afiliar (link, nicho, status, chat_telegram)
