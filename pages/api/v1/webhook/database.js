@@ -584,7 +584,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     const { apikey } = dados || {};
 
     const nichoQuery = `
-      SELECT nicho FROM afiliado.afiliados
+      SELECT nichos FROM afiliado.afiliados
       WHERE apikey = $1
       LIMIT 1
     `;
