@@ -162,6 +162,18 @@ async function query(rota, dados) {
       const sanitizedLinkOriginal =
         typeof link_original === 'string' ? link_original.split('#')[0] : link_original;
 
+  // Se informado, busca o nicho vinculado ao link na tabela link_para_afiliar
+      let nichoIdFinal = nicho_id;
+      if (id_link_para_afiliar) {
+        const nichoQuery = 'SELECT nicho FROM afiliado.link_para_afiliar WHERE id = $1 LIMIT 1';
+        const nichoResult = await client.query(nichoQuery, [id_link_para_afiliar]);
+        if (nichoResult.rows.length > 0) {
+          nichoIdFinal = nichoResult.rows[0].nicho;
+        }
+      }
+
+
+
       const duplicateQuery = `
         SELECT 1 FROM afiliado.afiliacoes_pendentes WHERE link_original = $1
         UNION ALL
@@ -209,7 +221,7 @@ async function query(rota, dados) {
         cliques,
         sanitizedLinkOriginal,
         frete,
-        nicho_id
+        nichoIdFinal
       ];
 
       const result = await client.query(queryText, values);
