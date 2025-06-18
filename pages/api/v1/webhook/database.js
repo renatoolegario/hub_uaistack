@@ -580,54 +580,60 @@ if (rota === 'cadastroLinkParaAfiliar') {
     return result.rows[0];
   }
 
-  if (rota === 'buscarTextoParaGrupo') {
-    const { apikey } = dados || {};
+ if (rota === 'buscarTextoParaGrupo') {
+  const { apikey } = dados || {};
+  console.log('[QUERY] Iniciando busca por texto de grupo para a API key:', apikey);
 
-    const nichoQuery = `
-      SELECT nichos FROM afiliado.afiliados
-      WHERE apikey = $1
-      LIMIT 1
-    `;
-    const nichoResult = await client.query(nichoQuery, [apikey]);
+  const nichoQuery = `
+    SELECT nichos FROM afiliado.afiliados
+    WHERE apikey = $1
+    LIMIT 1
+  `;
+  const nichoResult = await client.query(nichoQuery, [apikey]);
 
-    if (nichoResult.rows.length === 0) {
-      return null;
-    }
-
-    const nichoId = Array.isArray(nichoResult.rows[0].nicho)
-      ? nichoResult.rows[0].nicho[0]
-      : nichoResult.rows[0].nicho;
-
-    const buscaQuery = `
-      SELECT id, texto_para_grupo, data_proxima_verificacao
-      FROM afiliado.afiliacoes
-      WHERE nicho_id = $1
-        AND data_proxima_verificacao <= CURRENT_DATE
-        AND texto_para_grupo IS NOT NULL
-        AND texto_para_grupo <> ''
-        AND status_para_grupo = true
-        AND status_produto = true
-      ORDER BY data_proxima_verificacao ASC
-      LIMIT 1
-    `;
-
-    const buscaResult = await client.query(buscaQuery, [nichoId]);
-
-    if (buscaResult.rows.length === 0) {
-      return null;
-    }
-
-    const registro = buscaResult.rows[0];
-
-    await client.query(
-      `UPDATE afiliado.afiliacoes
-         SET data_proxima_verificacao = CURRENT_DATE + INTERVAL '10 days'
-       WHERE id = $1`,
-      [registro.id]
-    );
-
-    return registro;
+  if (nichoResult.rows.length === 0) {
+    console.warn('[QUERY] Nenhum nicho encontrado para a apikey');
+    return null;
   }
+
+  const nichos = nichoResult.rows[0].nichos;
+  const nichoId = Array.isArray(nichos) ? nichos[0] : nichos;
+  console.log('[QUERY] Nicho selecionado:', nichoId);
+
+  const buscaQuery = `
+    SELECT a.id, a.nome, a.imagem_url, a.link_afiliado, a.origem, a.preco, a.frete, a.texto_para_grupo, s."label"
+    FROM afiliado.afiliacoes a
+    JOIN afiliado.subcategorias s ON s.id = a.subcategoria_id
+    WHERE a.nicho_id = $1
+      AND (data_proxima_verificacao <= CURRENT_DATE OR data_proxima_verificacao IS NULL)
+      AND texto_para_grupo IS NOT NULL
+      AND texto_para_grupo <> ''
+      AND status_para_grupo = true
+      AND status_produto = true
+    ORDER BY data_proxima_verificacao ASC
+    LIMIT 1;
+  `;
+  const buscaResult = await client.query(buscaQuery, [nichoId]);
+
+  if (buscaResult.rows.length === 0) {
+    console.log('[QUERY] Nenhum produto disponível no momento para envio');
+    return null;
+  }
+
+  const registro = buscaResult.rows[0];
+  console.log('[QUERY] Produto encontrado:', registro.nome);
+
+  await client.query(
+    `UPDATE afiliado.afiliacoes
+     SET data_proxima_verificacao = CURRENT_DATE + INTERVAL '10 days'
+     WHERE id = $1`,
+    [registro.id]
+  );
+
+  console.log('[QUERY] Produto atualizado com nova verificação em 10 dias');
+  return registro;
+}
+
 
   if (rota === 'buscarSessaoPuppeteer') {
     const { nome } = dados || {};

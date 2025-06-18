@@ -266,14 +266,34 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
-      case 'buscarTextoParaGrupo': {
+     case 'buscarTextoParaGrupo': {
         const { apikey } = dados || {};
         if (!apikey) {
           return res.status(400).json({ error: 'apikey é obrigatório' });
         }
+
         const resultado = await consultaBd('buscarTextoParaGrupo', { apikey });
+
+        if (!resultado?.imagem_url) {
+          console.warn('[API] Produto retornado sem imagem.');
+          return res.status(200).json(resultado);
+        }
+
+        try {
+          const response = await fetch(resultado.imagem_url);
+          const buffer = await response.arrayBuffer();
+          const base64 = Buffer.from(buffer).toString('base64');
+
+          const contentType = response.headers.get('content-type') || 'image/jpeg';
+          resultado.imagem_64 = `data:${contentType};base64,${base64}`;
+        } catch (err) {
+          console.error('[API] Erro ao converter imagem em base64:', err);
+          resultado.imagem_64 = null; // ou você pode omitir esse campo
+        }
+
         return res.status(200).json(resultado);
       }
+
 
       default:
         return res.status(400).json({ error: 'Rota desconhecida' });
