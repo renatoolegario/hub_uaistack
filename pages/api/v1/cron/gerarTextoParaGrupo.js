@@ -18,7 +18,18 @@ export default async function handler(req, res) {
     const linkCurto = `${registro.codigo_curto}`;
 
     const prompt =
-      `Gere um texto de venda empático e atrativo com até 5 parágrafos curtos,  com base nesse produto:\n` +
+      `Gere um texto de venda empático e atrativo com até 5 parágrafos curtos, utilize emoticons , baseado nesse modelo abaixo :
+      👕✨ Kit 5 Bodies Manga Curta – Seu Bebê Merece Esse Conforto!
+
+        Mamãe, sabe aquele body que veste fácil, é leve, fresquinho e parece abraço?
+        Esse kit com 5 peças em suedine 100% algodão é exatamente isso.
+
+        ✅ Tecido macio e respirável (perfeito pra peles sensíveis)
+        ✅ Costura suave, nada de marcas ou incômodos
+        ✅ Cores neutras e lindas: combinam com qualquer look
+
+        🛒 [QUERO ESSE KIT AGORA!]
+      com base nesse produto:\n` +
       JSON.stringify({
         nome: registro.nome,
         descricao: registro.descricao,
