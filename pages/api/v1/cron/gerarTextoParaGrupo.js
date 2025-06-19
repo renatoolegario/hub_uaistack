@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       O nome deve aparecer apenas no Titulo, no resto não pode aparecer o nome
       Estrutura:
       [TITULO = NOME]
-      [QUEBRA GELO] <-- aqui não repita o nome do produto 
+      [QUEBRA GELO] <-- aqui não repita o nome do produto (não pode ser longo, tem que ser curto e direto)
       [VALOR]
 
       Siga o modelo abaixo:
