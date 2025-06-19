@@ -44,7 +44,8 @@ export default async function handler(req, res) {
       }, null, 2)}
 
       logo abaixo do preço coloque o seguinte texto
-      (Aqui deu frete *gratis!*)
+      (Aqui deu frete *gratis!*) 
+      Não deve conter mais nenhum texto abaixo
       `;
 
     const gptResponse = await openai.chat.completions.create({
