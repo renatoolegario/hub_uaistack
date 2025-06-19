@@ -344,6 +344,18 @@ async function query(rota, dados) {
     return result.rows[0];
   }
 
+  if (rota === 'atualizarPageview') {
+    const { codigo_curto } = dados || {};
+    const query = `
+      UPDATE afiliado.afiliacoes
+      SET pageview = COALESCE(pageview, 0) + 1
+      WHERE codigo_curto = $1
+      RETURNING id, pageview, codigo_curto
+    `;
+    const result = await client.query(query, [codigo_curto]);
+    return result.rows[0];
+  }
+
 
 
     if (rota === 'listarCategoriaAfiliado') {
