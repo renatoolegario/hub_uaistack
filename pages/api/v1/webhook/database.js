@@ -344,6 +344,18 @@ async function query(rota, dados) {
     return result.rows[0];
   }
 
+  if (rota === 'atualizarContadorCodigoCurto') {
+    const { codigo_curto } = dados || {};
+    const query = `
+      UPDATE afiliado.afiliacoes
+      SET cliques = cliques + 1
+      WHERE codigo_curto = $1
+      RETURNING id, codigo_curto, cliques
+    `;
+    const result = await client.query(query, [codigo_curto]);
+    return result.rows[0];
+  }
+
 
 
     if (rota === 'listarCategoriaAfiliado') {

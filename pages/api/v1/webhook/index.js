@@ -135,6 +135,15 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'atualizarContadorCodigoCurto': {
+        const { codigo_curto } = dados || {};
+        if (!codigo_curto) {
+          return res.status(400).json({ error: 'codigo_curto é obrigatório' });
+        }
+        const resultado = await consultaBd('atualizarContadorCodigoCurto', { codigo_curto });
+        return res.status(200).json(resultado);
+      }
+
       case 'listarCategoriaAfiliado': {
         
         const { nicho_id } = dados || {};
