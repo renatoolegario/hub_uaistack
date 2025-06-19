@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     const openai = new OpenAI({ apiKey: process.env.CHAVE_GPT });
-    const linkCurto =  `${registro.landingpage}${registro.codigo_curto}`;
+    const linkCurto =  `${registro.landingpage}p/${registro.codigo_curto}`;
 
     const prompt = `
       Gere um texto de venda empático e atrativo o modelo abaixo tem que ser curtos. 
