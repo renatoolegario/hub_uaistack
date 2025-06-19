@@ -714,13 +714,14 @@ if (rota === 'cadastroLinkParaAfiliar') {
 
   if (rota === 'salvarTextoParaGrupo') {
     const { id, texto } = dados || {};
+    const data = new Date();
     const query = `
       UPDATE afiliado.afiliacoes
-      SET texto_para_grupo = $2
+      SET texto_para_grupo = $2, data_proxima_verificacao = $3
       WHERE id = $1
       RETURNING id, texto_para_grupo
     `;
-    const result = await client.query(query, [id, texto]);
+    const result = await client.query(query, [id, texto,data]);
     return result.rows[0];
   }
 

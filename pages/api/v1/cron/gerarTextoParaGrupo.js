@@ -21,7 +21,6 @@ export default async function handler(req, res) {
       Gere um texto de venda empático e atrativo com até 5 parágrafos curtos. Use emojis.
       [TITULO = NOME]
       [QUEBRA GELO]
-      [DETALHES RESUMIDOS]
       [VALOR]
 
       Siga o modelo abaixo:
@@ -29,13 +28,7 @@ export default async function handler(req, res) {
 
       Mamãe, sabe aquele body que veste fácil, é leve, fresquinho e parece abraço?
       Esse kit com 5 peças em suedine 100% algodão é exatamente isso.
-
-     
-      ✅ Tecido macio e respirável (perfeito pra peles sensíveis)
-      ✅ Costura suave, nada de marcas ou incômodos
-      ✅ Cores neutras e lindas: combinam com qualquer look
-
-    
+      
       💰 *R$ 29,00*      
       (Aqui deu frete *gratis!*)
 
