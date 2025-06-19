@@ -62,11 +62,11 @@ export default async function handler(req, res) {
     ];
 
     const textosFinais = [
-      '🕐 Oferta por tempo limitado!',
-      '🚨 Enquanto durar o estoque!',
-      '⏳ Aproveite antes que acabe...',
-      '🔥 Últimas unidades! Não perca essa oportunidade.',
-      '🕐 Corre que tá saindo rápido!',
+      '🕐 _Oferta por tempo limitado!_',
+      '🚨 _Enquanto durar o estoque!_',
+      '⏳ _Aproveite antes que acabe..._',
+      '🔥 _Últimas unidades! Não perca essa oportunidade._',
+      '🕐 _Corre que tá saindo rápido!_',
     ];
     
     const aleatorio = textosFinais[Math.floor(Math.random() * textosFinais.length)];    
