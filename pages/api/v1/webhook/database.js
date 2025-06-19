@@ -702,8 +702,9 @@ if (rota === 'cadastroLinkParaAfiliar') {
 
   if (rota === 'buscarAfiliacaoSemTexto') {
     const query = `
-      SELECT id, nome, descricao, preco, frete, codigo_curto
-      FROM afiliado.afiliacoes
+      SELECT a.id, a.nome, a.descricao, a.preco, a.frete, a.codigo_curto, b.landingpage
+      FROM afiliado.afiliacoes a
+      JOIN afiliado.afiliados  b on b.nichos = a.nicho_id
       WHERE (texto_para_grupo IS NULL OR texto_para_grupo = '')
       ORDER BY data_criacao ASC
       LIMIT 1
