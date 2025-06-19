@@ -72,7 +72,7 @@ export default async function handler(req, res) {
     const aleatorio = textosFinais[Math.floor(Math.random() * textosFinais.length)];    
     const aleatorio2 = textoFrete[Math.floor(Math.random() * textoFrete.length)];
 
-    const textoFinal = `${textoBruto}\n${aleatorio2}\n\n${linkCurto}\n\n${aleatorio}`;
+    const textoFinal = `${textoBruto}\n${aleatorio2}\n\n🛒 Link para comprar:👇\n${linkCurto}\n\n${aleatorio}`;
 
     if (textoFinal) {
       await consultaBd('salvarTextoParaGrupo', { id: registro.id, texto: textoFinal });
