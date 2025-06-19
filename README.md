@@ -53,6 +53,7 @@ Somente as origens listadas no código são aceitas pelo CORS:
 | `atualizarProdutoAfiliado` | mesmos campos de produto mais `id` | produto atualizado |
 | `atualizarContadorProduto` | `{ id }` | contador incrementado |
 | `atualizarPageview` | `{ codigo_curto }` | pageview incrementado |
+| `atualizarContadorCodigoCurto` | `{ codigo_curto }` | contador incrementado |
 | `listarCategoriaAfiliado` | `{ nicho_id }` | lista de categorias |
 | `listarSubcategoriaAfiliado` | `{ nicho_id }` | lista de subcategorias |
 | `listarLinksRapidos` | `{ nicho_id }` | links rápidos |
