@@ -747,6 +747,20 @@ if (rota === 'cadastroLinkParaAfiliar') {
     return result.rows[0];
   }
 
+  if (rota === 'buscarUltimoGrupo') {
+    const { nicho } = dados || {};
+    const query = `
+      SELECT link_convite
+      FROM afiliado.grupo
+      WHERE nicho_grupo = $1
+        AND status = 'ativo'
+      ORDER BY id DESC
+      LIMIT 1
+    `;
+    const result = await client.query(query, [nicho]);
+    return result.rows[0];
+  }
+
   if (rota === 'buscarAfiliacaoSemTexto') {
     const query = `
       SELECT a.id, a.nome, a.descricao, a.preco, a.frete, a.codigo_curto, b.landingpage
