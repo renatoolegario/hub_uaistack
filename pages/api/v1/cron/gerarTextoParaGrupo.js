@@ -42,9 +42,6 @@ export default async function handler(req, res) {
         preco: registro.preco,
         frete: registro.frete,
       }, null, 2)}
-
-      logo abaixo do preço coloque o seguinte texto
-      (Aqui deu frete *gratis!*) 
       Não deve conter mais nenhum texto abaixo
       `;
 
@@ -56,6 +53,14 @@ export default async function handler(req, res) {
  
     const textoBruto = gptResponse.choices?.[0]?.message?.content?.trim();
 
+    const textoFrete = [
+    '(🚚 Aqui consegui *frete grátis*)',
+    '(🎉 Deu *frete grátis* pra mim!)',
+    '(🛍️ Aqui apareceu com *frete grátis*)',
+    '(📦 Deu *frete grátis* aqui!)',
+    '(💸 Olha só, aqui rolou *frete grátis*!)'
+    ];
+
     const textosFinais = [
       '🕐 Oferta por tempo limitado!',
       '🚨 Enquanto durar o estoque!',
@@ -64,9 +69,10 @@ export default async function handler(req, res) {
       '🕐 Corre que tá saindo rápido!',
     ];
     
-    const aleatorio = textosFinais[Math.floor(Math.random() * textosFinais.length)];
+    const aleatorio = textosFinais[Math.floor(Math.random() * textosFinais.length)];    
+    const aleatorio2 = textoFrete[Math.floor(Math.random() * textoFrete.length)];
 
-    const textoFinal = `${textoBruto}\n\n${linkCurto}\n\n${aleatorio}`;
+    const textoFinal = `${textoBruto}\n${aleatorio2}\n\n${linkCurto}\n\n${aleatorio}`;
 
     if (textoFinal) {
       await consultaBd('salvarTextoParaGrupo', { id: registro.id, texto: textoFinal });
