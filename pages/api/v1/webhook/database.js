@@ -351,7 +351,12 @@ async function query(rota, dados) {
       SET pageview = COALESCE(pageview, 0) + 1
       WHERE codigo_curto = $1
       RETURNING id, pageview, codigo_curto
-  if (rota === 'atualizarContadorCodigoCurto') {
+    `;
+    const result = await client.query(query, [codigo_curto]);
+    return result.rows[0];
+  }
+
+  if (rota === 'atualizarContadorCliques') {
     const { codigo_curto } = dados || {};
     const query = `
       UPDATE afiliado.afiliacoes
