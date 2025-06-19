@@ -5,6 +5,7 @@ const allowedOrigins = [
   'https://meubebemerece.com.br',
   'https://campanhas-uaistack.vercel.app',
   'https://www.mercadolivre.com.br',
+  'http://localhost:3000'
 ];
 
 
