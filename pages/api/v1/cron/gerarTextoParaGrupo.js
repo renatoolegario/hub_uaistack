@@ -40,15 +40,8 @@ export default async function handler(req, res) {
         frete: registro.frete,
       }, null, 2)}
 
-      logo abaixo do preço coloque o seguint texto
+      logo abaixo do preço coloque o seguinte texto
       (Aqui deu frete *gratis!*)
-
-      Logo abaixo coloque uma das frases da lista abaixo
-      1 - 🕐 Oferta por tempo limitado!
-      2 - 🚨 Enquanto durar o estoque! 
-      3 - ⏳ Aproveite antes que acabe...
-      4 - 🔥 Últimas unidades! Não perca essa oportunidade.
-      5 - 🕐 Corre que tá saindo rápido!
       `;
 
     const gptResponse = await openai.chat.completions.create({
