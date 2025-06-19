@@ -58,7 +58,7 @@ export default async function handler(req, res) {
       await consultaBd('salvarTextoParaGrupo', { id: registro.id, texto: textoBruto });
     }
 
-    return res.status(200).json({ id: registro.id, texto: textoFinal });
+    return res.status(200).json({ id: registro.id, texto: textoBruto });
   } catch (error) {
     console.error('Erro no cron gerarTextoParaGrupo:', error);
     return res.status(500).json({ error: error.message });
