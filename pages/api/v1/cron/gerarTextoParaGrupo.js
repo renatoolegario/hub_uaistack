@@ -15,7 +15,6 @@ export default async function handler(req, res) {
     }
 
     const openai = new OpenAI({ apiKey: process.env.CHAVE_GPT });
-    const linkCurto =  `${registro.landingpage}p/${registro.codigo_curto}`;
 
     const prompt = `
       Gere um texto de venda empático e atrativo o modelo abaixo tem que ser curtos. 
@@ -52,30 +51,11 @@ export default async function handler(req, res) {
 
  
     const textoBruto = gptResponse.choices?.[0]?.message?.content?.trim();
-
-    const textoFrete = [
-    '(🚚 Aqui consegui *frete grátis*)',
-    '(🎉 Deu *frete grátis* pra mim!)',
-    '(🛍️ Aqui apareceu com *frete grátis*)',
-    '(📦 Deu *frete grátis* aqui!)',
-    '(💸 Olha só, aqui rolou *frete grátis*!)'
-    ];
-
-    const textosFinais = [
-      '🕐 _Oferta por tempo limitado!_',
-      '🚨 _Enquanto durar o estoque!_',
-      '⏳ _Aproveite antes que acabe..._',
-      '🔥 _Últimas unidades! Não perca essa oportunidade._',
-      '🕐 _Corre que tá saindo rápido!_',
-    ];
     
-    const aleatorio = textosFinais[Math.floor(Math.random() * textosFinais.length)];    
-    const aleatorio2 = textoFrete[Math.floor(Math.random() * textoFrete.length)];
+   
 
-    const textoFinal = `${textoBruto}\n${aleatorio2}\n\n🛒 Link para comprar:👇\n${linkCurto}\n\n${aleatorio}`;
-
-    if (textoFinal) {
-      await consultaBd('salvarTextoParaGrupo', { id: registro.id, texto: textoFinal });
+    if (textoBruto) {
+      await consultaBd('salvarTextoParaGrupo', { id: registro.id, texto: textoBruto });
     }
 
     return res.status(200).json({ id: registro.id, texto: textoFinal });
