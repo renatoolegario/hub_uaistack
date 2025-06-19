@@ -26,14 +26,11 @@ export default async function handler(req, res) {
       Siga o modelo abaixo:
       👕✨ *Kit 5 Bodies Manga Curta*
 
-      Mamãe, sabe aquele body que veste fácil, é leve, fresquinho e parece abraço?
-      Esse kit com 5 peças em suedine 100% algodão é exatamente isso.
+      Mamãe, sabe aquele body que veste fácil, leve, fresquinho ?
+      Esse em suedine 100% algodão é exatamente isso.
 
       💰 *R$ 29,00*      
-      (Aqui deu frete *gratis!*)
-
-      🛒 [QUERO ESSE KIT AGORA!]
-
+      
       Agora crie um texto para este produto:
 
       ${JSON.stringify({
@@ -41,9 +38,17 @@ export default async function handler(req, res) {
         descricao: registro.descricao,
         preco: registro.preco,
         frete: registro.frete,
-        link_curto: linkCurto,
       }, null, 2)}
 
+      logo abaixo do preço coloque o seguint texto
+      (Aqui deu frete *gratis!*)
+
+      Logo abaixo coloque uma das frases da lista abaixo
+      1 - 🕐 Oferta por tempo limitado!
+      2 - 🚨 Enquanto durar o estoque! 
+      3 - ⏳ Aproveite antes que acabe...
+      4 - 🔥 Últimas unidades! Não perca essa oportunidade.
+      5 - 🕐 Corre que tá saindo rápido!
       `;
 
     const gptResponse = await openai.chat.completions.create({
