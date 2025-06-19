@@ -401,9 +401,9 @@ async function query(rota, dados) {
     }
 
     if (rota === 'buscarProdutoAfiliado') {
-      const { id } = dados || {};
-      const query = 'SELECT * FROM afiliado.afiliacoes WHERE id = $1 LIMIT 1';
-      const result = await client.query(query, [id]);
+      const { codigo_curto } = dados || {};
+      const query = 'SELECT * FROM afiliado.afiliacoes WHERE codigo_curto = $1 LIMIT 1';
+      const result = await client.query(query, [codigo_curto]);
       return result.rows[0];
     }
 
