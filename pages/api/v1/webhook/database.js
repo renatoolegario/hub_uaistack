@@ -705,10 +705,33 @@ if (rota === 'cadastroLinkParaAfiliar') {
   const registro = buscaResult.rows[0];
   console.log('[QUERY] Produto encontrado:', registro.nome);
 
+  // Montagem do texto final
+  const textoBruto = registro.texto_para_grupo;
+  const linkCurto = `${registro.landingpage}p/${registro.codigo_curto}`;
+  const textoFrete = [
+    '(🚚 Aqui consegui *frete grátis*)',
+    '(🎉 Deu *frete grátis* pra mim!)',
+    '(🛍️ Aqui apareceu com *frete grátis*)',
+    '(📦 Deu *frete grátis* aqui!)',
+    '(💸 Olha só, aqui rolou *frete grátis*!)'
+  ];
+  const textosFinais = [
+    '🕐 _Oferta por tempo limitado!_',
+    '🚨 _Enquanto durar o estoque!_',
+    '⏳ _Aproveite antes que acabe..._',
+    '🔥 _Últimas unidades! Não perca essa oportunidade._',
+    '🕐 _Corre que tá saindo rápido!_',
+  ];
+  const aleatorio = textosFinais[Math.floor(Math.random() * textosFinais.length)];
+  const aleatorio2 = textoFrete[Math.floor(Math.random() * textoFrete.length)];
+
+  const textoFinal = `${textoBruto}\n${aleatorio2}\n\n🛒 Link para comprar:👇\n${linkCurto}\n\n${aleatorio}`;
+  registro.texto_para_grupo = textoFinal;
+
   await client.query(
     `UPDATE afiliado.afiliacoes
-     SET data_proxima_verificacao = CURRENT_DATE + INTERVAL '10 days'
-     WHERE id = $1`,
+    SET data_proxima_verificacao = CURRENT_DATE + INTERVAL '10 days'
+    WHERE id = $1`,
     [registro.id]
   );
 
