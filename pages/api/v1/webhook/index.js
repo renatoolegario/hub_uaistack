@@ -136,13 +136,20 @@ export default async function webhook(req, res) {
       }
 
       case 'atualizarPageview': {
-      case 'atualizarContadorCodigoCurto': {
         const { codigo_curto } = dados || {};
         if (!codigo_curto) {
           return res.status(400).json({ error: 'codigo_curto é obrigatório' });
         }
         const resultado = await consultaBd('atualizarPageview', { codigo_curto });
-        const resultado = await consultaBd('atualizarContadorCodigoCurto', { codigo_curto });
+        return res.status(200).json(resultado);
+      }
+
+      case 'atualizarContadorCliques': {
+        const { codigo_curto } = dados || {};
+        if (!codigo_curto) {
+          return res.status(400).json({ error: 'codigo_curto é obrigatório' });
+        }
+        const resultado = await consultaBd('atualizarContadorCliques', { codigo_curto });
         return res.status(200).json(resultado);
       }
 
