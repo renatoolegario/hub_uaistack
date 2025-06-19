@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     const openai = new OpenAI({ apiKey: process.env.CHAVE_GPT });
-    const linkCurto = `${registro.codigo_curto}`;
+    const linkCurto =  `${registro.landingpage}${registro.codigo_curto}`;
 
     const prompt = `
       Gere um texto de venda empático e atrativo com até 5 parágrafos curtos. Use emojis.
@@ -49,15 +49,29 @@ export default async function handler(req, res) {
       messages: [{ role: 'user', content: prompt }],
     });
 
-    const texto = gptResponse.choices?.[0]?.message?.content?.trim();
+ 
+    const textoBruto = gptResponse.choices?.[0]?.message?.content?.trim();
 
-    if (texto) {
-      await consultaBd('salvarTextoParaGrupo', { id: registro.id, texto });
+    const textosFinais = [
+      '🕐 Oferta por tempo limitado!',
+      '🚨 Enquanto durar o estoque!',
+      '⏳ Aproveite antes que acabe...',
+      '🔥 Últimas unidades! Não perca essa oportunidade.',
+      '🕐 Corre que tá saindo rápido!',
+    ];
+    
+    const aleatorio = textosFinais[Math.floor(Math.random() * textosFinais.length)];
+
+    const textoFinal = `${textoBruto}\n\n${linkCurto}\n\n${aleatorio}`;
+
+    if (textoFinal) {
+      await consultaBd('salvarTextoParaGrupo', { id: registro.id, texto: textoFinal });
     }
 
-    return res.status(200).json({ id: registro.id, texto });
+    return res.status(200).json({ id: registro.id, texto: textoFinal });
   } catch (error) {
     console.error('Erro no cron gerarTextoParaGrupo:', error);
     return res.status(500).json({ error: error.message });
   }
 }
+
