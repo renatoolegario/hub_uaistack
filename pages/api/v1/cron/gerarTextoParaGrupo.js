@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
       Mamãe, sabe aquele body que veste fácil, é leve, fresquinho e parece abraço?
       Esse kit com 5 peças em suedine 100% algodão é exatamente isso.
-      
+
       💰 *R$ 29,00*      
       (Aqui deu frete *gratis!*)
 
@@ -44,9 +44,6 @@ export default async function handler(req, res) {
         link_curto: linkCurto,
       }, null, 2)}
 
-      Finalize com este CTA com ação baseada no prodtuo que seja curta exemplo abaixo :
-
-      🛒 [QUERO ESSE PRODUTO AGORA!]
       `;
 
     const gptResponse = await openai.chat.completions.create({
