@@ -36,6 +36,7 @@ export default async function webhook(req, res) {
     // 1. Verificar se auth é válido
     const authorized = await consultaBd('auth', { auth, remetente });
     if (!authorized) {
+      console.log("Recusado:",auth, remetente);
       return res.status(403).json({ error: 'Acesso negado' }); // ou 'refused'
     }
     // 2. Se autorizado, executar a rota solicitada
