@@ -60,7 +60,7 @@ Somente as origens listadas no código são aceitas pelo CORS:
 | `buscarLinkParaAfiliar` | `{}` | link pendente |
 | `deletarLinkParaAfiliar` | `{ id }` | link removido |
 | `listarProdutosAfiliado` | `{ nicho_id? }` | lista de produtos |
-| `buscarProdutoAfiliado` | `{ id }` | produto encontrado |
+| `buscarProdutoAfiliado` | `{ codigo_curto }` | produto encontrado |
 | `listarAfiliacoesPendentes` | `{ nicho_id? }` | produtos pendentes |
 | `aprovarAfiliacaoPendente` | `{ id, categorias, subcategoria_id }` | pendente aprovado |
 | `buscarAfiliadoPorEmail` | `{ email }` | informações do afiliado |

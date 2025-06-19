@@ -198,11 +198,11 @@ export default async function webhook(req, res) {
       }
 
       case 'buscarProdutoAfiliado': {
-        const { id } = dados || {};
-        if (!id) {
-          return res.status(400).json({ error: 'id é obrigatório' });
+        const { codigo_curto } = dados || {};
+        if (!codigo_curto) {
+          return res.status(400).json({ error: 'codigo_curto é obrigatório' });
         }
-        const resultado = await consultaBd('buscarProdutoAfiliado', { id });
+        const resultado = await consultaBd('buscarProdutoAfiliado', { codigo_curto });
         return res.status(200).json(resultado);
       }
 
