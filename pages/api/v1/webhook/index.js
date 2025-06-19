@@ -2,10 +2,9 @@ import consultaBd from './database';
 
 const allowedOrigins = [
   'https://afiliados-uaistack.vercel.app',
-  'https://grupo-das-mamaes.vercel.app',
+  'https://meubebemerece.com.br',
   'https://campanhas-uaistack.vercel.app',
   'https://www.mercadolivre.com.br',
-  'http://localhost:3000',
 ];
 
 
