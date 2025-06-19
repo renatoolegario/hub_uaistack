@@ -18,9 +18,12 @@ export default async function handler(req, res) {
     const linkCurto =  `${registro.landingpage}${registro.codigo_curto}`;
 
     const prompt = `
-      Gere um texto de venda empático e atrativo com até 5 parágrafos curtos. Use emojis.
+      Gere um texto de venda empático e atrativo o modelo abaixo tem que ser curtos. 
+      Use emojis.
+      O nome deve aparecer apenas no Titulo, no resto não pode aparecer o nome
+      Estrutura:
       [TITULO = NOME]
-      [QUEBRA GELO]
+      [QUEBRA GELO] <-- aqui não repita o nome do produto 
       [VALOR]
 
       Siga o modelo abaixo:
