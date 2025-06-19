@@ -70,6 +70,7 @@ Somente as origens listadas no código são aceitas pelo CORS:
 | `salvarSessaoPuppeteer` | `{ nome, dados }` | sessão salva |
 | `buscarSessaoPuppeteer` | `{ nome }` | sessão encontrada |
 | `buscarTextoParaGrupo` | `{ apikey }` | produto para divulgação (imagem em base64 opcional) |
+| `buscarUltimoGrupo` | `{ nicho }` | link convite do último grupo ativo |
 
 O endpoint `buscarTextoParaGrupo` baixa a imagem do produto e a devolve em `imagem_64` quando possível.
 

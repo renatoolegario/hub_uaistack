@@ -285,6 +285,15 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'buscarUltimoGrupo': {
+        const { nicho } = dados || {};
+        if (!nicho) {
+          return res.status(400).json({ error: 'nicho é obrigatório' });
+        }
+        const resultado = await consultaBd('buscarUltimoGrupo', { nicho });
+        return res.status(200).json(resultado);
+      }
+
      case 'buscarTextoParaGrupo': {
         const { apikey } = dados || {};
         if (!apikey) {
