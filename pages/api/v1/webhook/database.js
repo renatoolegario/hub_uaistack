@@ -500,7 +500,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     const buscarChatQuery = `
       SELECT chat_telegram 
       FROM afiliado.afiliados 
-      WHERE $1 = ANY (nichos)
+      WHERE nichos = $1
       LIMIT 1
     `;
     const chatResult = await client.query(buscarChatQuery, [nicho]);
