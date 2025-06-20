@@ -369,7 +369,6 @@ async function query(rota, dados) {
   }
 
 
-
     if (rota === 'listarCategoriaAfiliado') {
       const { nicho_id } = dados || {};
 
