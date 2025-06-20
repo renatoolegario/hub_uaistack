@@ -48,6 +48,7 @@ Somente as origens listadas no código são aceitas pelo CORS:
 | `cadastroLinkRapido` | `{ nome, link, subcategoria_id, nicho_id }` | link rápido criado |
 | `cadastroLeads` | `{ nome, whatsapp, origem?, campanha_origem? }` | lead inserido |
 | `cadastroLinkParaAfiliar` | `{ link, nicho, status?, chat_telegram? }` | registro criado |
+| `cadastroLinksParaAfiliar` | `{ nicho, links[] }` | links cadastrados em lote |
 | `cadastroProdutoAfiliado` | vários campos de produto | produto criado |
 | `cadastroAfiliacaoPendente` | mesmos campos de produto | produto pendente |
 | `atualizarProdutoAfiliado` | mesmos campos de produto mais `id` | produto atualizado |
