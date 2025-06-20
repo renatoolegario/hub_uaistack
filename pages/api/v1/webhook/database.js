@@ -461,6 +461,17 @@ async function query(rota, dados) {
       return result.rows;
     }
 
+    if (rota === 'listarLinksRapidosGeral') {
+      
+      const query = `
+        SELECT id, nome, link, subcategoria_id, nicho_id, criado_em
+        FROM afiliado.links_rapidos
+        ORDER BY criado_em DESC
+      `;
+      const result = await client.query(query);
+      return result.rows;
+    }
+
     if (rota === 'validarLinkRapido') {
       const { link } = dados || {};
       const query = 'SELECT 1 FROM afiliado.links_rapidos WHERE link = $1 LIMIT 1';

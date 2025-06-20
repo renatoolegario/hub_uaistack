@@ -177,6 +177,12 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'listarLinksRapidosGeral': {
+      
+        const resultado = await consultaBd('listarLinksRapidosGeral', {  });
+        return res.status(200).json(resultado);
+      }
+
       case 'validarLinkRapido': {
         const { link } = dados || {};
         if (!link) {
