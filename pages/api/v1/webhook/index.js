@@ -109,6 +109,15 @@ export default async function webhook(req, res) {
         });
         return res.status(200).json(resultado);
       }
+
+      case 'cadastroLinksParaAfiliar': {
+        const { nicho, links } = dados || {};
+        if (!nicho || !Array.isArray(links)) {
+          return res.status(400).json({ error: 'nicho e links são obrigatórios' });
+        }
+        const resultado = await consultaBd('cadastroLinksParaAfiliar', { nicho, links });
+        return res.status(200).json(resultado);
+      }
       case 'cadastroProdutoAfiliado': {
         const resultado = await consultaBd('cadastroProdutoAfiliado', dados);
 
