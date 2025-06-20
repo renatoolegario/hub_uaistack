@@ -526,63 +526,63 @@ if (rota === 'cadastroLinkParaAfiliar') {
   return { ok: true, ...result.rows[0] };
 }
 
- if (rota === 'cadastroLinksParaAfiliar') {
-   const { nicho, links } = dados || {};
+  if (rota === 'cadastroLinksParaAfiliar') {
+    const { nicho, links } = dados || {};
 
-   if (!Array.isArray(links) || links.length === 0) {
-     return { error: 'links deve ser um array' };
-   }
+    if (!Array.isArray(links) || links.length === 0) {
+      return { error: 'links deve ser um array' };
+    }
 
-   let chatTelegram = null;
-   if (nicho) {
-     const buscarChatQuery = `
-       SELECT chat_telegram
-       FROM afiliado.afiliados
-       WHERE $1 = ANY (nichos)
-       LIMIT 1
-     `;
-     const chatResult = await client.query(buscarChatQuery, [nicho]);
-     if (chatResult.rows.length > 0) {
-       chatTelegram = chatResult.rows[0].chat_telegram;
-     }
-   }
+    let chatTelegram = null;
+    if (nicho) {
+      const buscarChatQuery = `
+        SELECT chat_telegram
+        FROM afiliado.afiliados
+        WHERE nichos = $1
+        LIMIT 1
+      `;
+      const chatResult = await client.query(buscarChatQuery, [nicho]);
+      if (chatResult.rows.length > 0) {
+        chatTelegram = chatResult.rows[0].chat_telegram;
+      }
+    }
 
-   const resultados = [];
-   for (const link of links) {
-     const sanitized = typeof link === 'string' ? link.split('#')[0] : link;
+    const resultados = [];
+    for (const link of links) {
+      const sanitized = typeof link === 'string' ? link.split('#')[0] : link;
 
-     const duplicateQuery = `
-       SELECT 1 FROM afiliado.link_para_afiliar WHERE link = $1
-       UNION ALL
-       SELECT 1 FROM afiliado.afiliacoes WHERE link_original = $1
-       UNION ALL
-       SELECT 1 FROM afiliado.afiliacoes_pendentes WHERE link_original = $1
-       LIMIT 1
-     `;
-     const dupResult = await client.query(duplicateQuery, [sanitized]);
+      const duplicateQuery = `
+        SELECT 1 FROM afiliado.link_para_afiliar WHERE link = $1
+        UNION ALL
+        SELECT 1 FROM afiliado.afiliacoes WHERE link_original = $1
+        UNION ALL
+        SELECT 1 FROM afiliado.afiliacoes_pendentes WHERE link_original = $1
+        LIMIT 1
+      `;
+      const dupResult = await client.query(duplicateQuery, [sanitized]);
 
-     if (dupResult.rows.length > 0) {
-       resultados.push({ link: sanitized, duplicado: true });
-       continue;
-     }
+      if (dupResult.rows.length > 0) {
+        resultados.push({ link: sanitized, duplicado: true });
+        continue;
+      }
 
-     const insertQuery = `
-       INSERT INTO afiliado.link_para_afiliar (link, nicho, status, chat_telegram)
-       VALUES ($1, $2, 'aguardando', $3)
-       ON CONFLICT (link) DO NOTHING
-       RETURNING id
-     `;
-     const insertResult = await client.query(insertQuery, [sanitized, nicho, chatTelegram]);
+      const insertQuery = `
+        INSERT INTO afiliado.link_para_afiliar (link, nicho, status, chat_telegram)
+        VALUES ($1, $2, 'aguardando', $3)
+        ON CONFLICT (link) DO NOTHING
+        RETURNING id
+      `;
+      const insertResult = await client.query(insertQuery, [sanitized, nicho, chatTelegram]);
 
-     if (insertResult.rowCount === 0) {
-       resultados.push({ link: sanitized, duplicado: true });
-     } else {
-       resultados.push({ link: sanitized, id: insertResult.rows[0].id, ok: true });
-     }
-   }
+      if (insertResult.rowCount === 0) {
+        resultados.push({ link: sanitized, duplicado: true });
+      } else {
+        resultados.push({ link: sanitized, id: insertResult.rows[0].id, ok: true });
+      }
+    }
 
-   return { ok: true, resultados };
- }
+    return { ok: true, resultados };
+  }
 
 
 
