@@ -75,11 +75,11 @@ export default async function webhook(req, res) {
       }
 
       case 'cadastroLinkRapido': {
-        const { nome, link, subcategoria_id, nicho_id } = dados || {};
-        if (!nome || !link || !subcategoria_id || !nicho_id) {
+        const { nome, link,nicho_id } = dados || {};
+        if (!nome || !link  || !nicho_id) {
           return res.status(400).json({ error: 'nome, link, subcategoria_id e nicho_id são obrigatórios' });
         }
-        const resultado = await consultaBd('cadastroLinkRapido', { nome, link, subcategoria_id, nicho_id });
+        const resultado = await consultaBd('cadastroLinkRapido', { nome, link,  nicho_id });
         return res.status(200).json(resultado);
       }
       case 'cadastroLeads': {

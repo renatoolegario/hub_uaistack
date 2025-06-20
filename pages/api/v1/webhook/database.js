@@ -57,15 +57,15 @@ async function query(rota, dados) {
     }
 
     if (rota === 'cadastroLinkRapido') {
-      const { nome, link, subcategoria_id, nicho_id } = dados;
+      const { nome, link,  nicho_id } = dados;
 
       const query = `
-        INSERT INTO afiliado.links_rapidos (nome, link, subcategoria_id, nicho_id)
-        VALUES ($1, $2, $3, $4)
-        RETURNING id, nome, link, subcategoria_id, nicho_id, criado_em
+        INSERT INTO afiliado.links_rapidos (nome, link,  nicho_id)
+        VALUES ($1, $2, $3)
+        RETURNING id, nome, link,  nicho_id, criado_em
       `;
 
-      const result = await client.query(query, [nome, link, subcategoria_id, nicho_id]);
+      const result = await client.query(query, [nome, link, nicho_id]);
       return result.rows[0];
     }
 
@@ -452,7 +452,7 @@ async function query(rota, dados) {
       const { nicho_id } = dados || {};
 
       const query = `
-        SELECT id, nome, link, subcategoria_id, nicho_id, criado_em
+        SELECT id, nome, link, nicho_id, criado_em
         FROM afiliado.links_rapidos
         WHERE nicho_id = $1
         ORDER BY criado_em DESC
@@ -464,7 +464,7 @@ async function query(rota, dados) {
     if (rota === 'listarLinksRapidosGeral') {
       
       const query = `
-        SELECT id, nome, link, subcategoria_id, nicho_id, criado_em
+        SELECT id, nome, link,  nicho_id, criado_em
         FROM afiliado.links_rapidos
         ORDER BY criado_em DESC
       `;
