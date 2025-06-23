@@ -1,5 +1,6 @@
 import { createPool } from '@vercel/postgres';
 import { v4 as uuidv4 } from 'uuid'; // novo import
+import jwt from 'jsonwebtoken';
 
 
 function gerarCodigoCurto(tamanho = 4) {
@@ -692,6 +693,23 @@ if (rota === 'cadastroLinkParaAfiliar') {
     const query = 'SELECT 1 FROM afiliado.afiliados WHERE apikey = $1 LIMIT 1';
     const result = await client.query(query, [apikey]);
     return result.rows.length > 0;
+  }
+
+  if (rota === 'cadastroAfiliado') {
+    const { email, senha } = dados || {};
+
+    const apikey = uuidv4();
+    const key_unic = Math.floor(10000 + Math.random() * 90000).toString();
+
+    const senhaToken = jwt.sign({ d: senha + key_unic, iv: process.env.IV }, process.env.SECRET_KEY);
+
+    const query = `
+      INSERT INTO afiliado.afiliados (email, senha, apikey, key_unic)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, email, apikey`;
+
+    const result = await client.query(query, [email, senhaToken, apikey, key_unic]);
+    return result.rows[0];
   }
 
   if (rota === 'salvarSessaoPuppeteer') {

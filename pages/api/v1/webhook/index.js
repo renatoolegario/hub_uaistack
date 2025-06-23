@@ -282,6 +282,15 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'cadastroAfiliado': {
+        const { email, senha } = dados || {};
+        if (!email || !senha) {
+          return res.status(400).json({ error: 'email e senha são obrigatórios' });
+        }
+        const resultado = await consultaBd('cadastroAfiliado', { email, senha });
+        return res.status(200).json(resultado);
+      }
+
       case 'salvarSessaoPuppeteer': {
         const { nome, dados: conteudo } = dados || {};
         if (!nome || !conteudo) {
