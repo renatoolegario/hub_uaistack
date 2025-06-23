@@ -704,16 +704,12 @@ if (rota === 'cadastroLinkParaAfiliar') {
     const query = 'SELECT password as senha_db, key_unic, nichos, admin FROM afiliado.afiliados WHERE email = $1 LIMIT 1';
     const result = await client.query(query, [email]);
 
-    console.log("BBBB", email, senha);
-
     if (result.rows.length === 0) {
       return null;
     }
 
     const { senha_db, key_unic, nichos, admin } = result.rows[0];
     const senhaToken = await conversaoCripto(senha + key_unic);
-
-    console.log("AAAAA",senhaToken, senha_db );
 
     if (senhaToken !== senha_db) {
       return null;
