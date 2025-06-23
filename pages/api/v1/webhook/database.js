@@ -711,6 +711,8 @@ if (rota === 'cadastroLinkParaAfiliar') {
     const { senha_db, key_unic, nichos, admin } = result.rows[0];
     const senhaToken = await conversaoCripto(senha + key_unic);
 
+    console.log("AAAAA",senhaToken, senha_db );
+
     if (senhaToken !== senha_db) {
       return null;
     }
