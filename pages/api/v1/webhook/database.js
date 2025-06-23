@@ -1,6 +1,24 @@
 import { createPool } from '@vercel/postgres';
 import { v4 as uuidv4 } from 'uuid'; // novo import
-import jwt from 'jsonwebtoken';
+import CryptoJS from 'crypto-js';
+
+async function conversaoCripto(conteudo) {
+  const secretKey = process.env.SECRET_KEY;
+  if (!secretKey) {
+    throw new Error('Chave secreta não definida');
+  }
+
+  const iv = CryptoJS.enc.Utf8.parse(process.env.IV);
+  const key = CryptoJS.enc.Utf8.parse(secretKey);
+
+  const encrypted = CryptoJS.AES.encrypt(conteudo, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7
+  });
+
+  return encrypted.toString();
+}
 
 
 function gerarCodigoCurto(tamanho = 4) {
@@ -691,7 +709,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     }
 
     const { senha_db, key_unic, nichos, admin } = result.rows[0];
-    const senhaToken = jwt.sign({ d: senha + key_unic, iv: process.env.IV }, process.env.SECRET_KEY);
+    const senhaToken = await conversaoCripto(senha + key_unic);
 
     console.log("AAAAAAA",senha_db);
     console.log("BBBBBBB",senhaToken);
@@ -715,7 +733,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     const apikey = uuidv4();
     const key_unic = Math.floor(10000 + Math.random() * 90000).toString();
 
-    const senhaToken = jwt.sign({ d: senha + key_unic, iv: process.env.IV }, process.env.SECRET_KEY);
+    const senhaToken = await conversaoCripto(senha + key_unic);
 
     const query = `
       INSERT INTO afiliado.afiliados (email, password, apikey, key_unic)
@@ -760,10 +778,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     }
 
     const { key_unic } = selectResult.rows[0];
-    const senhaToken = jwt.sign(
-      { d: novaSenha + key_unic, iv: process.env.IV },
-      process.env.SECRET_KEY
-    );
+    const senhaToken = await conversaoCripto(novaSenha + key_unic);
 
     await client.query(
       'UPDATE afiliado.afiliados SET password = $1, recuperacao_senha = NULL WHERE email = $2',
