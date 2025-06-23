@@ -683,7 +683,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
 
   if (rota === 'buscarAfiliadoPorEmail') {
     const { email, senha } = dados || {};
-    const query = 'SELECT senha as senha_db, key_unic, nichos, admin FROM afiliado.afiliados WHERE email = $1 LIMIT 1';
+    const query = 'SELECT password as senha_db, key_unic, nichos, admin FROM afiliado.afiliados WHERE email = $1 LIMIT 1';
     const result = await client.query(query, [email]);
 
     if (result.rows.length === 0) {
@@ -693,6 +693,8 @@ if (rota === 'cadastroLinkParaAfiliar') {
     const { senha_db, key_unic, nichos, admin } = result.rows[0];
     const senhaToken = jwt.sign({ d: senha + key_unic, iv: process.env.IV }, process.env.SECRET_KEY);
 
+    console.log("AAAAAAA",senha_db);
+    console.log("BBBBBBB",senhaToken);
     if (senhaToken !== senha_db) {
       return null;
     }
@@ -716,7 +718,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     const senhaToken = jwt.sign({ d: senha + key_unic, iv: process.env.IV }, process.env.SECRET_KEY);
 
     const query = `
-      INSERT INTO afiliado.afiliados (email, senha, apikey, key_unic)
+      INSERT INTO afiliado.afiliados (email, password, apikey, key_unic)
       VALUES ($1, $2, $3, $4)
       RETURNING id, email, apikey`;
 
@@ -764,7 +766,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     );
 
     await client.query(
-      'UPDATE afiliado.afiliados SET senha = $1, recuperacao_senha = NULL WHERE email = $2',
+      'UPDATE afiliado.afiliados SET password = $1, recuperacao_senha = NULL WHERE email = $2',
       [senhaToken, email]
     );
 
