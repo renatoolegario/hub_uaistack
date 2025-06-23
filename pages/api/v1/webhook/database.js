@@ -741,10 +741,10 @@ if (rota === 'cadastroLinkParaAfiliar') {
   }
 
   if (rota === 'validarCodigoRecuperacao') {
-    const { email, codigo } = dados || {};
+    const { codigo } = dados || {};
     const query =
-      'SELECT 1 FROM afiliado.afiliados WHERE email = $1 AND recuperacao_senha = $2 LIMIT 1';
-    const result = await client.query(query, [email, codigo]);
+      'SELECT 1 FROM afiliado.afiliados WHERE recuperacao_senha = $1 LIMIT 1';
+    const result = await client.query(query, [ codigo]);
     return result.rows.length > 0;
   }
 

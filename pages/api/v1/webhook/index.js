@@ -329,12 +329,12 @@ export default async function webhook(req, res) {
       }
 
       case 'validarCodigoRecuperacao': {
-        const { email, codigo } = dados || {};
-        if (!email || !codigo) {
+        const { codigo } = dados || {};
+        if ( !codigo) {
           return res.status(400).json({ error: 'email e codigo são obrigatórios' });
         }
 
-        const valido = await consultaBd('validarCodigoRecuperacao', { email, codigo });
+        const valido = await consultaBd('validarCodigoRecuperacao', {  codigo });
         return res.status(200).json(valido);
       }
 
