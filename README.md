@@ -68,6 +68,7 @@ Somente as origens listadas no código são aceitas pelo CORS:
 | `aprovarAfiliacaoPendente` | `{ id, categorias, subcategoria_id }` | pendente aprovado |
 | `buscarAfiliadoPorEmail` | `{ email }` | informações do afiliado |
 | `validarApikeyAfiliado` | `{ apikey }` | boolean |
+| `cadastroAfiliado` | `{ email, senha }` | afiliado criado |
 | `salvarSessaoPuppeteer` | `{ nome, dados }` | sessão salva |
 | `buscarSessaoPuppeteer` | `{ nome }` | sessão encontrada |
 | `buscarTextoParaGrupo` | `{ apikey }` | produto para divulgação (imagem em base64 opcional) |
