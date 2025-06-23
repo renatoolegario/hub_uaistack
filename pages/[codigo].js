@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Main() {
+function CodigoPage() {
   return (
     <div className="min-h-screen flex">
       <div className="hidden md:block w-1/2 relative">
@@ -24,4 +24,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default CodigoPage;
