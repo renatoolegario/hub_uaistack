@@ -1,4 +1,5 @@
 import consultaBd from './database';
+import axios from 'axios';
 
 const allowedOrigins = [
   'https://afiliados-uaistack.vercel.app',
@@ -289,6 +290,62 @@ export default async function webhook(req, res) {
         }
         const resultado = await consultaBd('cadastroAfiliado', { email, senha });
         return res.status(200).json(resultado);
+      }
+
+      case 'recuperarSsenha': {
+        const { email } = dados || {};
+        if (!email) {
+          return res.status(400).json({ error: 'email é obrigatório' });
+        }
+
+        const resultado = await consultaBd('recuperarSsenha', { email });
+        if (!resultado) {
+          return res.status(404).json({ error: 'email não encontrado' });
+        }
+
+        const slug = `${process.env.NOME_SITE_RECUPERACAO}${resultado.codigo}`;
+
+        try {
+          await axios.post(
+            'https://api.resend.com/emails',
+            {
+              from: process.env.EMAIL_FROM,
+              to: email,
+              subject: 'Recuperação de senha',
+              html: `<p>Acesse o link para recuperar sua senha: <a href="${slug}">${slug}</a></p>`
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${process.env.RESEND_KEY}`,
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+        } catch (e) {
+          console.error('Erro ao enviar email de recuperação:', e.message);
+        }
+
+        return res.status(200).json({ ok: true });
+      }
+
+      case 'validarCodigoRecuperacao': {
+        const { email, codigo } = dados || {};
+        if (!email || !codigo) {
+          return res.status(400).json({ error: 'email e codigo são obrigatórios' });
+        }
+
+        const valido = await consultaBd('validarCodigoRecuperacao', { email, codigo });
+        return res.status(200).json(valido);
+      }
+
+      case 'atualizarSenhaRecuperacao': {
+        const { email, codigo, novaSenha } = dados || {};
+        if (!email || !codigo || !novaSenha) {
+          return res.status(400).json({ error: 'email, codigo e novaSenha são obrigatórios' });
+        }
+
+        const sucesso = await consultaBd('atualizarSenhaRecuperacao', { email, codigo, novaSenha });
+        return res.status(200).json(sucesso);
       }
 
       case 'salvarSessaoPuppeteer': {
