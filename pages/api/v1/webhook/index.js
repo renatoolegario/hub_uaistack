@@ -263,11 +263,11 @@ export default async function webhook(req, res) {
       }
 
       case 'buscarAfiliadoPorEmail': {
-        const { email } = dados || {};
-        if (!email) {
-          return res.status(400).json({ error: 'email é obrigatório' });
+        const { email, senha } = dados || {};
+        if (!email || !senha) {
+          return res.status(400).json({ error: 'email e senha são obrigatórios' });
         }
-        const resultado = await consultaBd('buscarAfiliadoPorEmail', { email });
+        const resultado = await consultaBd('buscarAfiliadoPorEmail', { email, senha });
 
 
         return res.status(200).json(resultado);

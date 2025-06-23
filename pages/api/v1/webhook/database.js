@@ -682,10 +682,22 @@ if (rota === 'cadastroLinkParaAfiliar') {
 
 
   if (rota === 'buscarAfiliadoPorEmail') {
-    const { email } = dados || {};
-    const query = 'SELECT nichos, admin FROM afiliado.afiliados WHERE email = $1 LIMIT 1';
+    const { email, senha } = dados || {};
+    const query = 'SELECT senha as senha_db, key_unic, nichos, admin FROM afiliado.afiliados WHERE email = $1 LIMIT 1';
     const result = await client.query(query, [email]);
-    return result.rows[0];
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const { senha_db, key_unic, nichos, admin } = result.rows[0];
+    const senhaToken = jwt.sign({ d: senha + key_unic, iv: process.env.IV }, process.env.SECRET_KEY);
+
+    if (senhaToken !== senha_db) {
+      return null;
+    }
+
+    return { nichos, admin };
   }
 
   if (rota === 'validarApikeyAfiliado') {

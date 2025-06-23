@@ -66,7 +66,7 @@ Somente as origens listadas no código são aceitas pelo CORS:
 | `buscarProdutoAfiliado` | `{ codigo_curto }` | produto encontrado |
 | `listarAfiliacoesPendentes` | `{ nicho_id? }` | produtos pendentes |
 | `aprovarAfiliacaoPendente` | `{ id, categorias, subcategoria_id }` | pendente aprovado |
-| `buscarAfiliadoPorEmail` | `{ email }` | informações do afiliado |
+| `buscarAfiliadoPorEmail` | `{ email, senha }` | informações do afiliado |
 | `validarApikeyAfiliado` | `{ apikey }` | boolean |
 | `cadastroAfiliado` | `{ email, senha }` | afiliado criado |
 | `salvarSessaoPuppeteer` | `{ nome, dados }` | sessão salva |
