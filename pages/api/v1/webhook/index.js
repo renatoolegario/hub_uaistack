@@ -310,12 +310,12 @@ export default async function webhook(req, res) {
       }
 
      case 'buscarTextoParaGrupo': {
-        const { apikey } = dados || {};
+        const { apikey , grupos} = dados || {};
         if (!apikey) {
           return res.status(400).json({ error: 'apikey é obrigatório' });
         }
 
-        const resultado = await consultaBd('buscarTextoParaGrupo', { apikey });
+        const resultado = await consultaBd('buscarTextoParaGrupo', { apikey, grupos });
 
         if (!resultado?.imagem_url) {
           console.warn('[API] Produto retornado sem imagem.');

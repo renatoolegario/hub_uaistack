@@ -709,7 +709,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
   }
 
  if (rota === 'buscarTextoParaGrupo') {
-  const { apikey } = dados || {};
+  const { apikey, grupos } = dados || {};
   console.log('[QUERY] Iniciando busca por texto de grupo para a API key:', apikey);
 
   const nichoQuery = `
@@ -726,6 +726,52 @@ if (rota === 'cadastroLinkParaAfiliar') {
 
   const nichos = nichoResult.rows[0].nichos;
   const nichoId = Array.isArray(nichos) ? nichos[0] : nichos;
+
+  //adição de todos os grupos que é admin
+  for (const grupo of grupos || []) {
+    const { id: identificacao_grupo, nome: nome_grupo, link_convite : link_convite } = grupo;
+
+    // Verifica se o grupo já existe
+    const existeQuery = `
+      SELECT 1 FROM afiliado.grupo
+      WHERE identificacao_grupo = $1
+      LIMIT 1
+    `;
+    const existeResult = await client.query(existeQuery, [identificacao_grupo]);
+
+    if (existeResult.rowCount === 0) {
+      // Insere o novo grupo
+      const insertGrupoQuery = `
+        INSERT INTO afiliado.grupo (
+          nome_grupo,
+          nicho_grupo,
+          identificacao_grupo,
+          data_criacao,
+          link_convite,
+          canal,
+          status,
+          liberacao_para_mensagem
+        ) VALUES (
+          $1, $2, $3, CURRENT_TIMESTAMP, $4, NULL, 'ativo', false
+        )
+      `;
+      await client.query(insertGrupoQuery, [
+        nome_grupo,
+        nichoId,
+        identificacao_grupo,
+        link_convite
+      ]);
+      console.log(`[INSERT] Grupo inserido: ${nome_grupo}`);
+    } else {
+      console.log(`[SKIP] Grupo já existente: ${nome_grupo}`);
+    }
+  }
+
+
+
+
+
+
   console.log('[QUERY] Nicho selecionado:', nichoId);
 
   const buscaQuery = `
