@@ -724,6 +724,53 @@ if (rota === 'cadastroLinkParaAfiliar') {
     return result.rows[0];
   }
 
+  if (rota === 'recuperarSsenha') {
+    const { email } = dados || {};
+    const codigo = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const query =
+      'UPDATE afiliado.afiliados SET recuperacao_senha = $2 WHERE email = $1 RETURNING id';
+
+    const result = await client.query(query, [email, codigo]);
+
+    if (result.rowCount === 0) {
+      return null;
+    }
+
+    return { codigo };
+  }
+
+  if (rota === 'validarCodigoRecuperacao') {
+    const { email, codigo } = dados || {};
+    const query =
+      'SELECT 1 FROM afiliado.afiliados WHERE email = $1 AND recuperacao_senha = $2 LIMIT 1';
+    const result = await client.query(query, [email, codigo]);
+    return result.rows.length > 0;
+  }
+
+  if (rota === 'atualizarSenhaRecuperacao') {
+    const { email, codigo, novaSenha } = dados || {};
+    const selectQuery =
+      'SELECT key_unic FROM afiliado.afiliados WHERE email = $1 AND recuperacao_senha = $2 LIMIT 1';
+    const selectResult = await client.query(selectQuery, [email, codigo]);
+    if (selectResult.rows.length === 0) {
+      return false;
+    }
+
+    const { key_unic } = selectResult.rows[0];
+    const senhaToken = jwt.sign(
+      { d: novaSenha + key_unic, iv: process.env.IV },
+      process.env.SECRET_KEY
+    );
+
+    await client.query(
+      'UPDATE afiliado.afiliados SET senha = $1, recuperacao_senha = NULL WHERE email = $2',
+      [senhaToken, email]
+    );
+
+    return true;
+  }
+
   if (rota === 'salvarSessaoPuppeteer') {
     const { nome, dados: conteudo } = dados || {};
     const query = `
