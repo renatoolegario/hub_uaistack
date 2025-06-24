@@ -701,21 +701,57 @@ if (rota === 'cadastroLinkParaAfiliar') {
 
   if (rota === 'buscarAfiliadoPorEmail') {
     const { email, senha } = dados || {};
-    const query = 'SELECT password as senha_db, key_unic, nichos, admin FROM afiliado.afiliados WHERE email = $1 LIMIT 1';
+    const query = `
+      SELECT password as senha_db,
+             key_unic,
+             nichos,
+             admin,
+             mensagem_inicio,
+             hora_inicio_1t,
+             hora_fim_1t,
+             hora_inicio_2t,
+             hora_fim_2t,
+             mensagem_fim,
+             imagem_comunicado
+        FROM afiliado.afiliados
+       WHERE email = $1
+       LIMIT 1`;
     const result = await client.query(query, [email]);
 
     if (result.rows.length === 0) {
       return null;
     }
 
-    const { senha_db, key_unic, nichos, admin } = result.rows[0];
+    const {
+      senha_db,
+      key_unic,
+      nichos,
+      admin,
+      mensagem_inicio,
+      hora_inicio_1t,
+      hora_fim_1t,
+      hora_inicio_2t,
+      hora_fim_2t,
+      mensagem_fim,
+      imagem_comunicado
+    } = result.rows[0];
     const senhaToken = await conversaoCripto(senha + key_unic);
 
     if (senhaToken !== senha_db) {
       return null;
     }
 
-    return { nichos, admin };
+    return {
+      nichos,
+      admin,
+      mensagem_inicio,
+      hora_inicio_1t,
+      hora_fim_1t,
+      hora_inicio_2t,
+      hora_fim_2t,
+      mensagem_fim,
+      imagem_comunicado
+    };
   }
 
   if (rota === 'validarApikeyAfiliado') {
@@ -784,6 +820,45 @@ if (rota === 'cadastroLinkParaAfiliar') {
     );
 
     return true;
+  }
+
+  if (rota === 'atualizarAfiliado') {
+    const {
+      id,
+      mensagem_inicio,
+      hora_inicio_1t,
+      hora_fim_1t,
+      hora_inicio_2t,
+      hora_fim_2t,
+      mensagem_fim,
+      imagem_comunicado
+    } = dados || {};
+
+    const query = `
+      UPDATE afiliado.afiliados SET
+        mensagem_inicio = $2,
+        hora_inicio_1t = $3,
+        hora_fim_1t = $4,
+        hora_inicio_2t = $5,
+        hora_fim_2t = $6,
+        mensagem_fim = $7,
+        imagem_comunicado = $8
+      WHERE id = $1
+      RETURNING id, mensagem_inicio, hora_inicio_1t, hora_fim_1t, hora_inicio_2t, hora_fim_2t, mensagem_fim, imagem_comunicado`;
+
+    const values = [
+      id,
+      mensagem_inicio,
+      hora_inicio_1t,
+      hora_fim_1t,
+      hora_inicio_2t,
+      hora_fim_2t,
+      mensagem_fim,
+      imagem_comunicado
+    ];
+
+    const result = await client.query(query, values);
+    return result.rows[0];
   }
 
   if (rota === 'salvarSessaoPuppeteer') {

@@ -66,9 +66,10 @@ Somente as origens listadas no código são aceitas pelo CORS:
 | `buscarProdutoAfiliado` | `{ codigo_curto }` | produto encontrado |
 | `listarAfiliacoesPendentes` | `{ nicho_id? }` | produtos pendentes |
 | `aprovarAfiliacaoPendente` | `{ id, categorias, subcategoria_id }` | pendente aprovado |
-| `buscarAfiliadoPorEmail` | `{ email, senha }` | informações do afiliado |
+| `buscarAfiliadoPorEmail` | `{ email, senha }` | dados do afiliado com horários e mensagens |
 | `validarApikeyAfiliado` | `{ apikey }` | boolean |
 | `cadastroAfiliado` | `{ email, senha }` | afiliado criado |
+| `atualizarAfiliado` | `{ id, mensagem_inicio, hora_inicio_1t, hora_fim_1t, hora_inicio_2t, hora_fim_2t, mensagem_fim, imagem_comunicado }` | afiliado atualizado |
 | `salvarSessaoPuppeteer` | `{ nome, dados }` | sessão salva |
 | `buscarSessaoPuppeteer` | `{ nome }` | sessão encontrada |
 | `buscarTextoParaGrupo` | `{ apikey }` | produto para divulgação (imagem em base64 opcional) |

@@ -292,6 +292,36 @@ export default async function webhook(req, res) {
         return res.status(200).json(resultado);
       }
 
+      case 'atualizarAfiliado': {
+        const {
+          id,
+          mensagem_inicio,
+          hora_inicio_1t,
+          hora_fim_1t,
+          hora_inicio_2t,
+          hora_fim_2t,
+          mensagem_fim,
+          imagem_comunicado
+        } = dados || {};
+
+        if (!id) {
+          return res.status(400).json({ error: 'id é obrigatório' });
+        }
+
+        const resultado = await consultaBd('atualizarAfiliado', {
+          id,
+          mensagem_inicio,
+          hora_inicio_1t,
+          hora_fim_1t,
+          hora_inicio_2t,
+          hora_fim_2t,
+          mensagem_fim,
+          imagem_comunicado
+        });
+
+        return res.status(200).json(resultado);
+      }
+
       case 'recuperarSsenha': {
         const { email } = dados || {};
         if (!email) {
