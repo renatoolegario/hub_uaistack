@@ -702,7 +702,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
   if (rota === 'buscarAfiliadoPorEmail') {
     const { email, senha } = dados || {};
     const query = `
-      SELECT password as senha_db,
+      SELECT id, password as senha_db,
              key_unic,
              nichos,
              admin,
@@ -723,6 +723,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     }
 
     const {
+      id,
       senha_db,
       key_unic,
       nichos,
@@ -742,6 +743,7 @@ if (rota === 'cadastroLinkParaAfiliar') {
     }
 
     return {
+      id,
       nichos,
       admin,
       mensagem_inicio,
